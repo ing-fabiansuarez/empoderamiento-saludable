@@ -9,17 +9,11 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
 
-        /* Steps */
-        .step { display: none; animation: fadeUp .35s ease both; }
-        .step.active { display: block; }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Progress bar */
+        body { font-family: 'Inter', sans-serif; }
+ 
+        /* Progress bar - keep for visual interest if needed, else remove */
         .progress-bar { transition: width .5s cubic-bezier(.4,0,.2,1); }
-
+ 
         /* Radio/Checkbox custom */
         .choice-card input[type="radio"] { display: none; }
         .choice-card label {
@@ -47,14 +41,7 @@
             width: 7px; height: 7px;
             border-radius: 50%; background: white;
         }
-
-        /* Risk badge colors */
-        .badge-low     { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
-        .badge-slight  { background: #fef9c3; color: #713f12; border: 1px solid #fde047; }
-        .badge-mod     { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
-        .badge-high    { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
-        .badge-vhigh   { background: #fce7f3; color: #831843; border: 1px solid #f9a8d4; }
-
+ 
         /* Input focus */
         input[type="number"], select {
             transition: border-color .2s, box-shadow .2s;
@@ -64,7 +51,7 @@
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59,130,246,.15);
         }
-
+ 
         /* Scrollbar for consent */
         .consent-scroll::-webkit-scrollbar { width: 6px; }
         .consent-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 3px; }
@@ -129,18 +116,8 @@
                 </div>
             </div>
 
-            <!-- Step indicators — 4 steps -->
-            <div class="flex items-center gap-2">
-                @foreach(['Consentimiento', 'Medidas', 'Hábitos', 'Resultados'] as $i => $label)
-                    <div id="step-indicator-{{ $i+1 }}" class="flex items-center gap-2 transition-all duration-300">
-                        <div class="step-dot w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold {{ $i === 0 ? 'bg-blue-700 text-white' : 'bg-white text-slate-400 border-2 border-slate-200' }} transition-all">{{ $i+1 }}</div>
-                        <span class="step-label text-xs font-semibold {{ $i === 0 ? 'text-blue-700' : 'text-slate-400' }} hidden sm:inline transition-all">{{ $label }}</span>
-                    </div>
-                    @if($i < 3)
-                        <div id="connector-{{ $i+1 }}" class="flex-1 h-0.5 bg-slate-200 rounded-full mx-1 transition-all duration-500"></div>
-                    @endif
-                @endforeach
-            </div>
+
+
         </div>
 
         <!-- VALIDATION ERRORS (shown above the card if there are errors) -->
@@ -163,16 +140,17 @@
             <form id="findriscForm" action="{{ route('surveys.store') }}" method="POST">
                 @csrf
 
-                <!-- ======================== STEP 1: CONSENTIMIENTO ======================== -->
-                <div class="step active" id="s1">
+                <!-- CONSENTIMIENTO -->
+                <section class="border-b border-slate-100">
                     <div class="bg-gradient-to-br from-blue-700 to-blue-900 px-8 py-6 text-white">
                         <div class="flex items-center gap-3 mb-1">
                             <svg class="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                            <span class="text-blue-300 text-sm font-medium uppercase tracking-widest">Paso 1 de 4</span>
+                            <span class="text-blue-300 text-sm font-medium uppercase tracking-widest">Sección 1</span>
                         </div>
                         <h2 class="text-xl font-bold">Consentimiento Informado</h2>
                         <p class="text-blue-200 text-sm mt-1">Por favor, lea detenidamente antes de participar.</p>
                     </div>
+
 
                     <div class="p-8">
                         <div class="consent-scroll bg-slate-50 rounded-2xl border border-slate-200 p-6 text-sm text-slate-600 leading-7 h-72 overflow-y-auto mb-6 space-y-4">
@@ -215,27 +193,23 @@
                         </div>
 
                         <label class="flex items-start gap-3 cursor-pointer p-4 rounded-xl border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 transition-all duration-200 mb-6">
-                            <input type="checkbox" id="consent" class="mt-0.5 h-5 w-5 rounded accent-blue-700 flex-shrink-0 cursor-pointer">
+                            <input type="checkbox" name="consent" class="mt-0.5 h-5 w-5 rounded accent-blue-700 flex-shrink-0 cursor-pointer" required>
                             <div>
                                 <p class="font-semibold text-slate-800 text-sm">He leído y comprendo el consentimiento informado</p>
                                 <p class="text-xs text-slate-400 mt-0.5">Acepto participar voluntariamente en este estudio de investigación.</p>
                             </div>
                         </label>
-
-                        <button type="button" onclick="next(2)" class="w-full bg-blue-700 hover:bg-blue-800 active:scale-[.98] text-white py-3.5 rounded-xl font-semibold text-sm tracking-wide transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2">
-                            Continuar con la Evaluación
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                        </button>
                     </div>
-                </div>
+                </section>
 
-                <!-- ======================== STEP 2: MEDIDAS ANTROPOMÉTRICAS ======================== -->
-                <div class="step" id="s2">
+                <!-- MEDIDAS ANTROPOMÉTRICAS -->
+                <section class="border-b border-slate-100">
                     <div class="bg-gradient-to-br from-cyan-700 to-blue-800 px-8 py-6 text-white">
                         <div class="flex items-center gap-3 mb-1">
                             <svg class="w-5 h-5 text-cyan-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                            <span class="text-cyan-300 text-sm font-medium uppercase tracking-widest">Paso 2 de 4</span>
+                            <span class="text-cyan-300 text-sm font-medium uppercase tracking-widest">Sección 2</span>
                         </div>
+
                         <h2 class="text-xl font-bold">Datos Antropométricos</h2>
                         <p class="text-cyan-200 text-sm mt-1">Ingrese sus medidas corporales con la mayor precisión posible.</p>
                     </div>
@@ -270,54 +244,33 @@
 
                             <div>
                                 <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Peso <span class="text-slate-400 font-normal">(kg)</span></label>
-                                <input type="number" name="weight" id="weight" min="30" max="250" step="0.1" value="{{ old('weight') }}" placeholder="ej. 78.5" required
-                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none"
-                                    oninput="calculateBmi()">
+                                <input type="number" name="weight" min="30" max="250" step="0.1" value="{{ old('weight') }}" placeholder="ej. 78.5" required
+                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none">
                             </div>
 
                             <div>
                                 <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Estatura <span class="text-slate-400 font-normal">(cm)</span></label>
-                                <input type="number" name="height" id="height" min="120" max="220" value="{{ old('height') }}" placeholder="ej. 170" required
-                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none"
-                                    oninput="calculateBmi()">
+                                <input type="number" name="height" min="120" max="220" value="{{ old('height') }}" placeholder="ej. 170" required
+                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none">
                             </div>
 
                             <div>
                                 <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Perímetro de Cintura <span class="text-slate-400 font-normal">(cm)</span></label>
-                                <input type="number" name="waist" id="waist" min="40" max="200" value="{{ old('waist') }}" placeholder="ej. 92" required
+                                <input type="number" name="waist" min="40" max="200" value="{{ old('waist') }}" placeholder="ej. 92" required
                                     class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none">
                             </div>
                         </div>
-
-                        <!-- IMC Live Preview -->
-                        <div id="bmiDisplay" class="hidden mt-5 rounded-xl border-2 border-blue-200 bg-blue-50 p-4 flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-full bg-blue-700 flex items-center justify-center flex-shrink-0">
-                                <span class="text-white font-black text-sm" id="bmiValue">--</span>
-                            </div>
-                            <div>
-                                <p class="text-xs text-blue-500 font-medium uppercase tracking-wider">Índice de Masa Corporal (IMC)</p>
-                                <p id="bmiCategory" class="text-blue-900 font-bold text-sm mt-0.5"></p>
-                                <p class="text-xs text-blue-400">Estimación previa · El cálculo oficial se realiza en el servidor</p>
-                            </div>
-                        </div>
-
-                        <div class="flex gap-3 mt-7">
-                            <button type="button" onclick="next(1)" class="flex-none bg-slate-100 hover:bg-slate-200 text-slate-600 px-5 py-3.5 rounded-xl font-semibold text-sm transition">← Atrás</button>
-                            <button type="button" onclick="next(3)" class="flex-1 bg-blue-700 hover:bg-blue-800 active:scale-[.98] text-white py-3.5 rounded-xl font-semibold text-sm tracking-wide transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2">
-                                Continuar
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                            </button>
-                        </div>
                     </div>
-                </div>
+                </section>
 
-                <!-- ======================== STEP 3: HÁBITOS ======================== -->
-                <div class="step" id="s3">
+                <!-- HÁBITOS -->
+                <section>
                     <div class="bg-gradient-to-br from-indigo-700 to-blue-900 px-8 py-6 text-white">
                         <div class="flex items-center gap-3 mb-1">
                             <svg class="w-5 h-5 text-indigo-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-                            <span class="text-indigo-300 text-sm font-medium uppercase tracking-widest">Paso 3 de 4</span>
+                            <span class="text-indigo-300 text-sm font-medium uppercase tracking-widest">Sección 3</span>
                         </div>
+
                         <h2 class="text-xl font-bold">Hábitos y Antecedentes de Salud</h2>
                         <p class="text-indigo-200 text-sm mt-1">Cuestionario clínico FINDRISC — responda con honestidad.</p>
                     </div>
@@ -404,137 +357,14 @@
                             </select>
                         </div>
 
-                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs text-slate-500 leading-relaxed">
-                            <strong class="text-slate-600">📌 Nota académica:</strong> Sus respuestas serán procesadas en el servidor de forma segura. Ningún dato identificable será almacenado. Se generará un código anónimo como referencia de su participación.
-                        </div>
-
-                        <div class="flex gap-3 pt-2">
-                            <button type="button" onclick="next(2)" class="flex-none bg-slate-100 hover:bg-slate-200 text-slate-600 px-5 py-3.5 rounded-xl font-semibold text-sm transition">← Atrás</button>
-                            <button type="submit" class="flex-1 bg-emerald-600 hover:bg-emerald-700 active:scale-[.98] text-white py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                Calcular Mi Riesgo
+                        <div class="pt-6 border-t border-slate-100">
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[.98] text-white py-4 rounded-xl font-bold text-base tracking-wide transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Enviar y Calcular Mi Riesgo
                             </button>
                         </div>
                     </div>
-                </div>
-
-                <!-- ======================== STEP 4: RESULTADOS ======================== -->
-                @if(session('result'))
-                    @php
-                        $score     = session('result')['score'];
-                        $risk      = session('result')['risk_level'];
-                        $uuid      = session('result')['uuid'];
-                        $badgeClass = match(true) {
-                            $score < 7  => 'badge-low',
-                            $score < 12 => 'badge-slight',
-                            $score < 15 => 'badge-mod',
-                            $score < 20 => 'badge-high',
-                            default     => 'badge-vhigh',
-                        };
-                        $headerGradient = match(true) {
-                            $score < 7  => 'from-emerald-600 to-emerald-800',
-                            $score < 12 => 'from-yellow-500 to-amber-700',
-                            $score < 15 => 'from-orange-500 to-orange-800',
-                            $score < 20 => 'from-red-600 to-red-900',
-                            default     => 'from-rose-700 to-pink-900',
-                        };
-                        $scoreBarColor = match(true) {
-                            $score < 7  => 'bg-emerald-400',
-                            $score < 12 => 'bg-yellow-400',
-                            $score < 15 => 'bg-orange-500',
-                            $score < 20 => 'bg-red-500',
-                            default     => 'bg-rose-600',
-                        };
-                        $bgTint = match(true) {
-                            $score < 7  => 'bg-emerald-50',
-                            $score < 12 => 'bg-yellow-50',
-                            $score < 15 => 'bg-orange-50',
-                            $score < 20 => 'bg-red-50',
-                            default     => 'bg-pink-50',
-                        };
-                        $scorePercent = min(100, round(($score / 26) * 100));
-                    @endphp
-
-                    <div class="step" id="s4">
-                        <!-- Header -->
-                        <div class="bg-gradient-to-br {{ $headerGradient }} px-8 py-6 text-white relative overflow-hidden">
-                            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 80% 20%, white 1px, transparent 1px); background-size: 24px 24px;"></div>
-                            <div class="flex items-center gap-3 mb-1 relative">
-                                <svg class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                                <span class="text-white/70 text-sm font-medium uppercase tracking-widest">Paso 4 de 4 · Evaluación Completada</span>
-                            </div>
-                            <h2 class="text-2xl font-extrabold relative">Tu Resultado FINDRISC</h2>
-                            <p class="text-white/70 text-sm mt-1 relative">Evaluación completada. Resultados procesados en el servidor.</p>
-                        </div>
-
-                        <!-- Score area -->
-                        <div class="{{ $bgTint }} px-8 py-6 border-b border-slate-100">
-                            <div class="flex flex-col md:flex-row md:items-center gap-6">
-                                <!-- Score display -->
-                                <div class="flex-1">
-                                    <p class="text-xs text-slate-500 uppercase font-semibold tracking-widest mb-1">Puntaje Total</p>
-                                    <div class="flex items-end gap-3 mb-3">
-                                        <p class="text-7xl font-extrabold text-slate-900 leading-none">{{ $score }}</p>
-                                        <div class="pb-2">
-                                            <p class="text-slate-500 text-sm font-medium">puntos</p>
-                                            <p class="text-slate-400 text-xs">sobre 26</p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Score bar with scale -->
-                                    <div class="mb-2">
-                                        <div class="w-full bg-white rounded-full h-4 border border-slate-200 relative overflow-hidden">
-                                            <div class="{{ $scoreBarColor }} h-4 rounded-full transition-all duration-1000" style="width: {{ $scorePercent }}%"></div>
-                                        </div>
-                                        <div class="flex justify-between text-[10px] text-slate-400 mt-1 px-0.5">
-                                            <span>0</span><span>7</span><span>11</span><span>14</span><span>19</span><span>26</span>
-                                        </div>
-                                    </div>
-
-                                    <span class="{{ $badgeClass }} inline-block text-sm font-bold px-5 py-2 rounded-xl mt-1">
-                                        {{ $risk }}
-                                    </span>
-                                </div>
-
-                                <!-- Risk table legend -->
-                                <div class="flex-shrink-0 bg-white rounded-2xl border border-slate-200 p-4 w-full md:w-56 text-xs shadow-sm">
-                                    <p class="text-slate-400 uppercase font-semibold tracking-wider mb-3">Escala de Riesgo</p>
-                                    <div class="space-y-1.5">
-                                        @foreach([['0–6','Riesgo Bajo','badge-low'],['7–11','Ligeramente Elevado','badge-slight'],['12–14','Moderado','badge-mod'],['15–19','Alto','badge-high'],['≥20','Muy Alto','badge-vhigh']] as [$range, $label, $cls])
-                                            <div class="flex items-center justify-between gap-2">
-                                                <span class="text-slate-500 font-mono">{{ $range }}</span>
-                                                <span class="{{ $cls }} text-[10px] font-bold px-2 py-0.5 rounded-lg">{{ $label }}</span>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Code + disclaimer + actions -->
-                        <div class="p-8 space-y-5">
-                            <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-                                <p class="text-xs text-slate-400 uppercase font-semibold tracking-wider mb-2">Código de Participante Anónimo</p>
-                                <p class="font-mono text-sm text-slate-700 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 break-all">{{ $uuid }}</p>
-                                <p class="text-[11px] text-slate-400 mt-2">Guarda este código como referencia de tu participación en el estudio.</p>
-                            </div>
-
-                            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800 flex gap-3">
-                                <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-                                <p>⚕️ Este resultado es <strong>orientativo</strong> y <strong>no constituye un diagnóstico médico</strong>. Si obtuviste un riesgo moderado o superior, consulta con tu médico para una valoración clínica completa.</p>
-                            </div>
-
-                            <a href="/" class="w-full bg-blue-700 hover:bg-blue-800 active:scale-[.98] text-white py-3.5 rounded-xl font-semibold text-sm tracking-wide transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                                Llenar Otra Encuesta
-                            </a>
-                        </div>
-                    </div>
-                @else
-                    {{-- Placeholder vacío para que el JS pueda activar s4 si el servidor redirige aquí --}}
-                    <div class="step" id="s4"></div>
-                @endif
-
+                </section>
             </form>
         </div>
 
@@ -545,82 +375,5 @@
             <p>La escala FINDRISC no reemplaza la valoración médica profesional.</p>
         </footer>
     </main>
-
-    <script>
-        const TOTAL_STEPS = 4;
-
-        function next(n) {
-            if (n === 2 && !document.getElementById("consent").checked) {
-                alert("Debe leer y aceptar el consentimiento informado para continuar.");
-                return;
-            }
-
-            if (n === 3) {
-                const age    = document.querySelector('input[name="age"]').value;
-                const weight = document.getElementById('weight').value;
-                const height = document.getElementById('height').value;
-                const waist  = document.getElementById('waist').value;
-                if (!age || !weight || !height || !waist) {
-                    alert("Por favor complete todos los datos antropométricos antes de continuar.");
-                    return;
-                }
-            }
-
-            document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-            document.getElementById("s" + n).classList.add("active");
-            updateStepIndicators(n);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function updateStepIndicators(n) {
-            for (let i = 1; i <= TOTAL_STEPS; i++) {
-                const dot   = document.querySelector(`#step-indicator-${i} .step-dot`);
-                const label = document.querySelector(`#step-indicator-${i} .step-label`);
-                if (!dot) continue;
-                if (i < n) {
-                    dot.className   = 'step-dot w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-emerald-500 text-white transition-all';
-                    dot.innerHTML   = '✓';
-                    label.className = 'step-label text-xs font-semibold text-emerald-600 hidden sm:inline transition-all';
-                } else if (i === n) {
-                    dot.className   = 'step-dot w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-blue-700 text-white transition-all';
-                    dot.innerHTML   = i;
-                    label.className = 'step-label text-xs font-semibold text-blue-700 hidden sm:inline transition-all';
-                } else {
-                    dot.className   = 'step-dot w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-white text-slate-400 border-2 border-slate-200 transition-all';
-                    dot.innerHTML   = i;
-                    label.className = 'step-label text-xs font-semibold text-slate-400 hidden sm:inline transition-all';
-                }
-                if (i < TOTAL_STEPS) {
-                    const connector = document.getElementById(`connector-${i}`);
-                    if (connector) connector.className = i < n
-                        ? 'flex-1 h-0.5 bg-emerald-400 rounded-full mx-1 transition-all duration-500'
-                        : 'flex-1 h-0.5 bg-slate-200 rounded-full mx-1 transition-all duration-500';
-                }
-            }
-        }
-
-        function calculateBmi() {
-            const w   = parseFloat(document.getElementById('weight').value);
-            const hCm = parseFloat(document.getElementById('height').value);
-            const display = document.getElementById('bmiDisplay');
-            if (w && hCm && hCm > 0) {
-                const h   = hCm / 100;
-                const bmi = w / (h * h);
-                document.getElementById('bmiValue').innerText = bmi.toFixed(1);
-                let cat = bmi < 18.5 ? 'Bajo peso' : bmi < 25 ? 'Peso normal' : bmi < 30 ? 'Sobrepeso' : bmi < 35 ? 'Obesidad grado I' : bmi < 40 ? 'Obesidad grado II' : 'Obesidad grado III';
-                document.getElementById('bmiCategory').innerText = cat;
-                display.classList.remove('hidden');
-            } else {
-                display.classList.add('hidden');
-            }
-        }
-
-        // Auto-jump to results step (step 4) if server returned a result
-        @if(session('result'))
-            next(4);
-        @elseif($errors->any())
-            next({{ $errors->has('act') || $errors->has('food') || $errors->has('htn') || $errors->has('glu') || $errors->has('fam') ? 3 : ($errors->has('age') || $errors->has('weight') || $errors->has('height') || $errors->has('waist') || $errors->has('gender') ? 2 : 1) }});
-        @endif
-    </script>
 </body>
 </html>

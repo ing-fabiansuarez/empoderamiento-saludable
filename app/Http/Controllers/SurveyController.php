@@ -22,16 +22,17 @@ class SurveyController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'gender' => 'required|in:M,F',
-            'age'    => 'required|integer|min:18|max:100',
-            'weight' => 'required|numeric|min:30|max:250',
-            'height' => 'required|numeric|min:120|max:220',
-            'waist'  => 'required|numeric|min:40|max:200',
-            'act'    => 'required|integer|in:0,2',
-            'food'   => 'required|integer|in:0,1',
-            'htn'    => 'required|integer|in:0,2',
-            'glu'    => 'required|integer|in:0,5',
-            'fam'    => 'required|integer|in:0,3,5',
+            'consent' => 'required|accepted',
+            'gender'  => 'required|in:M,F',
+            'age'     => 'required|integer|min:18|max:100',
+            'weight'  => 'required|numeric|min:30|max:250',
+            'height'  => 'required|numeric|min:120|max:220',
+            'waist'   => 'required|numeric|min:40|max:200',
+            'act'     => 'required|integer|in:0,2',
+            'food'    => 'required|integer|in:0,1',
+            'htn'     => 'required|integer|in:0,2',
+            'glu'     => 'required|integer|in:0,5',
+            'fam'     => 'required|integer|in:0,3,5',
         ]);
 
         // Calculate BMI
@@ -108,10 +109,16 @@ class SurveyController extends Controller
             'risk_level' => $riskLevel,
         ]));
 
-        return back()->with('result', [
-            'score'      => $score,
-            'risk_level' => $riskLevel,
-            'uuid'       => $survey->uuid,
-        ])->with('success', 'Encuesta guardada con éxito.');
+        return redirect()->route('surveys.show', $survey->uuid)->with('success', 'Encuesta guardada con éxito.');
+    }
+
+    /**
+     * Display the survey results.
+     */
+    public function show(string $uuid)
+    {
+        $survey = Survey::where('uuid', $uuid)->firstOrFail();
+
+        return view('surveys.result', compact('survey'));
     }
 }
