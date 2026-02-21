@@ -1,59 +1,135 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🧠 Empoderamiento Saludable  
+### Aplicación digital para la autogestión de la diabetes
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📌 Descripción del proyecto
+**Empoderamiento Saludable** es una iniciativa de investigación aplicada orientada al desarrollo de una aplicación digital basada en **informática participativa**, con el objetivo de fomentar hábitos saludables y la conciencia de la enfermedad en personas con diabetes o alto riesgo de desarrollarla.
 
-## About Laravel
+El proyecto integra:
+- Diseño centrado en el usuario  
+- Teoría de cooperación  
+- Experiencia de usuario (UX)  
+- Tecnologías digitales para el autocuidado  
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚨 Problema
+En Colombia:
+- Más de **1.8 millones de personas** tienen diabetes  
+- Solo el **50% está diagnosticado**  
+- Alta prevalencia y complicaciones (cardiovasculares, renales, neuropatía, etc.)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+📉 Problema central:
+> Baja adherencia a hábitos saludables y limitada conciencia de la enfermedad.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🎯 Objetivo general
+Desarrollar y evaluar una aplicación digital que promueva la adopción de hábitos saludables y la conciencia sobre la diabetes en el corto plazo.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Objetivos específicos
+- Identificar necesidades de pacientes y comunidades  
+- Diseñar un sistema de autogestión en salud  
+- Evaluar usabilidad y efectividad en entornos reales  
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🧪 Metodología
+- **Tipo de estudio:** Explicativo, transversal, observacional (sin riesgo)  
+- **Enfoque:** Investigación aplicada  
+- **Población:** Personas con riesgo alto o diagnosticadas  
 
-### Premium Partners
+### 🎓 Universidades participantes
+- Universidad Autónoma de Bucaramanga (UNAB)  
+- Universidad Autónoma de Manizales (UAM)  
+- Universidad Autónoma de Occidente (UAO)  
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 📊 Muestra
+- 97 participantes  
+- Muestreo no probabilístico  
+- Nivel de confianza: 95%  
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🧠 Estado del arte y enfoque
+- Empoderamiento del paciente mediante tecnología  
+- Seguimiento de hábitos con retroalimentación  
+- Limitaciones actuales: baja interacción y cooperación en apps existentes  
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 💡 Resultados esperados
+- 📄 Documento de requerimientos  
+- 🏗️ Arquitectura del sistema de información  
+- 📊 Informe de uso y adherencia  
 
-## Security Vulnerabilities
+### 🧾 Productos académicos
+- Artículo científico (Q2)  
+- Registro de software  
+- Ponencia internacional  
+- Trabajo de grado  
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🌍 Impacto
+**Social:**
+- Mayor conciencia y educación en salud  
+- Mejora en la autogestión de la diabetes  
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Económico:**
+- Reducción de costos en salud  
+- Base para nuevas soluciones digitales en salud  
+
+---
+
+## 👥 Equipo de trabajo
+
+### Investigador principal
+- Jorge Andrick Parra Valencia (UNAB)
+
+### Coinvestigadores
+- Diana Yomali Ospina (UAM)  
+- Andrés Solano (UAO)  
+- Carlos Peláez (UAO)  
+
+### Otros participantes
+- Helien Parra (UAM) – Doctorado  
+- Fabian Suarez (UNAB) – Magíster  
+- Sergio Serrano (UNAB) – Asesor   
+
+---
+
+## ⚖️ Ética y seguridad
+- Nivel de riesgo: **Sin riesgo**  
+- Cumple con:
+  - Declaración de Helsinki  
+  - Resolución 8430 de 1993 (Colombia)  
+
+### Principios clave
+- Consentimiento informado  
+- Confidencialidad de datos  
+- Libertad de retiro  
+- Transparencia y responsabilidad  
+
+---
+
+## 💰 Recursos
+**Presupuesto total:** $34.000.000 COP  
+
+| Categoría              | Valor         |
+|-----------------------|--------------|
+| Eventos científicos   | $5.000.000   |
+| Materiales            | $3.000.000   |
+| Servicios técnicos    | $26.000.000  |
+
+---
+
+## 🔗 Enfoque del sistema
+La solución busca construir un **Sistema de Autogestión en Salud** que:
+- Involucre activamente a los usuarios  
+- Mejore la adherencia a hábitos saludables  
+- Genere conocimiento útil para futuras aplicaciones  
+
+---
+
+## 📌 Conclusión
+Este proyecto propone una solución tecnológica innovadora centrada en el usuario, con impacto académico, social y económico, orientada a transformar la forma en que las personas gestionan su salud frente a la diabetes.
