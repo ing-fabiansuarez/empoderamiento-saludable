@@ -23,16 +23,16 @@ class SurveyController extends Controller
     {
         $validated = $request->validate([
             'consent' => 'required|accepted',
-            'gender'  => 'required|in:M,F',
-            'age'     => 'required|integer|min:18|max:100',
-            'weight'  => 'required|numeric|min:30|max:250',
-            'height'  => 'required|numeric|min:120|max:220',
-            'waist'   => 'required|numeric|min:40|max:200',
-            'act'     => 'required|integer|in:0,2',
-            'food'    => 'required|integer|in:0,1',
-            'htn'     => 'required|integer|in:0,2',
-            'glu'     => 'required|integer|in:0,5',
-            'fam'     => 'required|integer|in:0,3,5',
+            'gender' => 'required|in:M,F',
+            'age' => 'required|integer|min:18|max:100',
+            'weight' => 'required|numeric|min:30|max:250',
+            'height' => 'required|numeric|min:120|max:220',
+            'waist' => 'required|numeric|min:40|max:200',
+            'daily_activity' => 'required|integer|in:0,2',
+            'fruit_consumption' => 'required|integer|in:0,1',
+            'antihypertensive_medication' => 'required|integer|in:0,2',
+            'elevated_glucose' => 'required|integer|in:0,5',
+            'family_history' => 'required|integer|in:0,3,5',
         ]);
 
         // Calculate BMI
@@ -82,11 +82,11 @@ class SurveyController extends Controller
         }
 
         // Other factors
-        $score += $validated['act'];
-        $score += $validated['food'];
-        $score += $validated['htn'];
-        $score += $validated['glu'];
-        $score += $validated['fam'];
+        $score += $validated['daily_activity'];
+        $score += $validated['fruit_consumption'];
+        $score += $validated['antihypertensive_medication'];
+        $score += $validated['elevated_glucose'];
+        $score += $validated['family_history'];
 
         // Determine Risk Level
         if ($score < 7) {
@@ -103,9 +103,9 @@ class SurveyController extends Controller
 
         // Create the record
         $survey = Survey::create(array_merge($validated, [
-            'uuid'       => (string) Str::uuid(),
-            'bmi'        => round($bmi, 1),
-            'score'      => $score,
+            'uuid' => (string) Str::uuid(),
+            'bmi' => round($bmi, 1),
+            'score' => $score,
             'risk_level' => $riskLevel,
         ]));
 

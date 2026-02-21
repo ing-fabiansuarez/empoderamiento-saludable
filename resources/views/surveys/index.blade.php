@@ -141,7 +141,7 @@
                 @csrf
 
                 <!-- CONSENTIMIENTO -->
-                <section class="border-b border-slate-100">
+                <section id="step-1" class="border-b border-slate-100">
                     <div class="bg-gradient-to-br from-blue-700 to-blue-900 px-8 py-6 text-white">
                         <div class="flex items-center gap-3 mb-1">
                             <svg class="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
@@ -199,11 +199,19 @@
                                 <p class="text-xs text-slate-400 mt-0.5">Acepto participar voluntariamente en este estudio de investigación.</p>
                             </div>
                         </label>
+
+                        <div class="flex justify-end">
+                            <button type="button" onclick="nextStep()"
+                                class="bg-blue-700 hover:bg-blue-800 active:scale-[.98] text-white py-3 px-8 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg shadow-blue-100 flex items-center gap-2">
+                                Siguiente
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
                     </div>
                 </section>
 
                 <!-- MEDIDAS ANTROPOMÉTRICAS -->
-                <section class="border-b border-slate-100">
+                <section id="step-2" class="border-b border-slate-100" style="display:none">
                     <div class="bg-gradient-to-br from-cyan-700 to-blue-800 px-8 py-6 text-white">
                         <div class="flex items-center gap-3 mb-1">
                             <svg class="w-5 h-5 text-cyan-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
@@ -260,11 +268,24 @@
                                     class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none">
                             </div>
                         </div>
+
+                        <div class="flex justify-between mt-6">
+                            <button type="button" onclick="prevStep()"
+                                class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-2 border border-slate-200">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                                Anterior
+                            </button>
+                            <button type="button" onclick="nextStep()"
+                                class="bg-blue-700 hover:bg-blue-800 active:scale-[.98] text-white py-3 px-8 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg shadow-blue-100 flex items-center gap-2">
+                                Siguiente
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
                     </div>
                 </section>
 
                 <!-- HÁBITOS -->
-                <section>
+                <section id="step-3" style="display:none">
                     <div class="bg-gradient-to-br from-indigo-700 to-blue-900 px-8 py-6 text-white">
                         <div class="flex items-center gap-3 mb-1">
                             <svg class="w-5 h-5 text-indigo-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
@@ -284,11 +305,11 @@
                             </legend>
                             <div class="choice-card grid grid-cols-2 gap-3">
                                 <div>
-                                    <input type="radio" id="act_yes" name="act" value="0" {{ old('act') === '0' ? 'checked' : '' }} required>
+                                    <input type="radio" id="act_yes" name="daily_activity" value="0" {{ old('daily_activity') === '0' ? 'checked' : '' }} required>
                                     <label for="act_yes" class="justify-center text-sm font-medium text-slate-700"><span class="radio-dot"></span> Sí, regularmente</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="act_no" name="act" value="2" {{ old('act') === '2' ? 'checked' : '' }}>
+                                    <input type="radio" id="act_no" name="daily_activity" value="2" {{ old('daily_activity') === '2' ? 'checked' : '' }}>
                                     <label for="act_no" class="justify-center text-sm font-medium text-slate-700"><span class="radio-dot"></span> No</label>
                                 </div>
                             </div>
@@ -301,11 +322,11 @@
                             </legend>
                             <div class="choice-card grid grid-cols-2 gap-3">
                                 <div>
-                                    <input type="radio" id="food_yes" name="food" value="0" {{ old('food') === '0' ? 'checked' : '' }} required>
+                                    <input type="radio" id="food_yes" name="fruit_consumption" value="0" {{ old('fruit_consumption') === '0' ? 'checked' : '' }} required>
                                     <label for="food_yes" class="justify-center text-sm font-medium text-slate-700"><span class="radio-dot"></span> Sí, a diario</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="food_no" name="food" value="1" {{ old('food') === '1' ? 'checked' : '' }}>
+                                    <input type="radio" id="food_no" name="fruit_consumption" value="1" {{ old('fruit_consumption') === '1' ? 'checked' : '' }}>
                                     <label for="food_no" class="justify-center text-sm font-medium text-slate-700"><span class="radio-dot"></span> No regularmente</label>
                                 </div>
                             </div>
@@ -318,11 +339,11 @@
                             </legend>
                             <div class="choice-card grid grid-cols-2 gap-3">
                                 <div>
-                                    <input type="radio" id="htn_yes" name="htn" value="2" {{ old('htn') === '2' ? 'checked' : '' }} required>
+                                    <input type="radio" id="htn_yes" name="antihypertensive_medication" value="2" {{ old('antihypertensive_medication') === '2' ? 'checked' : '' }} required>
                                     <label for="htn_yes" class="justify-center text-sm font-medium text-slate-700"><span class="radio-dot"></span> Sí</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="htn_no" name="htn" value="0" {{ old('htn') === '0' ? 'checked' : '' }}>
+                                    <input type="radio" id="htn_no" name="antihypertensive_medication" value="0" {{ old('antihypertensive_medication') === '0' ? 'checked' : '' }}>
                                     <label for="htn_no" class="justify-center text-sm font-medium text-slate-700"><span class="radio-dot"></span> No</label>
                                 </div>
                             </div>
@@ -335,11 +356,11 @@
                             </legend>
                             <div class="choice-card grid grid-cols-2 gap-3">
                                 <div>
-                                    <input type="radio" id="glu_yes" name="glu" value="5" {{ old('glu') === '5' ? 'checked' : '' }} required>
+                                    <input type="radio" id="glu_yes" name="elevated_glucose" value="5" {{ old('elevated_glucose') === '5' ? 'checked' : '' }} required>
                                     <label for="glu_yes" class="justify-center text-sm font-medium text-slate-700"><span class="radio-dot"></span> Sí</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="glu_no" name="glu" value="0" {{ old('glu') === '0' ? 'checked' : '' }}>
+                                    <input type="radio" id="glu_no" name="elevated_glucose" value="0" {{ old('elevated_glucose') === '0' ? 'checked' : '' }}>
                                     <label for="glu_no" class="justify-center text-sm font-medium text-slate-700"><span class="radio-dot"></span> No</label>
                                 </div>
                             </div>
@@ -350,15 +371,20 @@
                                 <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 text-xs font-black flex items-center justify-center flex-shrink-0">5</span>
                                 ¿Tiene <strong class="mx-1 text-indigo-700">antecedentes familiares</strong> de diabetes mellitus?
                             </label>
-                            <select name="fam" required class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium focus:border-blue-500 focus:ring-blue-200 focus:ring-2 outline-none bg-white appearance-none cursor-pointer">
-                                <option value="0" {{ old('fam') == '0' ? 'selected' : '' }}>No, ningún familiar con diabetes conocida</option>
-                                <option value="3" {{ old('fam') == '3' ? 'selected' : '' }}>Sí — Familiar de 2° grado (abuelos, tíos, primos)</option>
-                                <option value="5" {{ old('fam') == '5' ? 'selected' : '' }}>Sí — Familiar de 1° grado (padres, hermanos, hijos)</option>
+                            <select name="family_history" required class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium focus:border-blue-500 focus:ring-blue-200 focus:ring-2 outline-none bg-white appearance-none cursor-pointer">
+                                <option value="0" {{ old('family_history') == '0' ? 'selected' : '' }}>No, ningún familiar con diabetes conocida</option>
+                                <option value="3" {{ old('family_history') == '3' ? 'selected' : '' }}>Sí — Familiar de 2° grado (abuelos, tíos, primos)</option>
+                                <option value="5" {{ old('family_history') == '5' ? 'selected' : '' }}>Sí — Familiar de 1° grado (padres, hermanos, hijos)</option>
                             </select>
                         </div>
 
-                        <div class="pt-6 border-t border-slate-100">
-                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[.98] text-white py-4 rounded-xl font-bold text-base tracking-wide transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
+                        <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
+                            <button type="button" onclick="prevStep()"
+                                class="sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 border border-slate-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                                Anterior
+                            </button>
+                            <button type="submit" class="flex-1 bg-emerald-600 hover:bg-emerald-700 active:scale-[.98] text-white py-4 rounded-xl font-bold text-base tracking-wide transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 Enviar y Calcular Mi Riesgo
                             </button>
@@ -375,5 +401,49 @@
             <p>La escala FINDRISC no reemplaza la valoración médica profesional.</p>
         </footer>
     </main>
+<script>
+    const steps = [
+        document.getElementById('step-1'),
+        document.getElementById('step-2'),
+        document.getElementById('step-3'),
+    ];
+
+    let currentStep = 0;
+
+    function showStep(index) {
+        steps.forEach((step, i) => {
+            step.style.display = i === index ? 'block' : 'none';
+        });
+        currentStep = index;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextStep() {
+        const section = steps[currentStep];
+        const inputs = section.querySelectorAll('input, select');
+        let firstInvalid = null;
+
+        for (const input of inputs) {
+            if (!input.checkValidity()) {
+                firstInvalid = firstInvalid ?? input;
+            }
+        }
+
+        if (firstInvalid) {
+            firstInvalid.reportValidity();
+            return;
+        }
+
+        if (currentStep < steps.length - 1) {
+            showStep(currentStep + 1);
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 0) {
+            showStep(currentStep - 1);
+        }
+    }
+</script>
 </body>
 </html>
