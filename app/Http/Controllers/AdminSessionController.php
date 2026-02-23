@@ -49,6 +49,28 @@ class AdminSessionController extends Controller
     }
 
     /**
+     * Show the admin dashboard.
+     */
+    public function dashboard(Request $request): View
+    {
+        $perPage = $request->input('per_page', 10);
+        $surveys = Survey::orderBy('id', 'asc')->paginate($perPage);
+
+        return view('admin.dashboard', compact('surveys', 'perPage'));
+    }
+
+    /**
+     * Delete a survey.
+     */
+    public function destroySurvey($id): RedirectResponse
+    {
+        $survey = Survey::findOrFail($id);
+        $survey->delete();
+
+        return redirect()->route('admin.dashboard')->with('success', 'Registro eliminado correctamente.');
+    }
+
+    /**
      * Log the admin out.
      */
     public function logout(Request $request): RedirectResponse

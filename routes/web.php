@@ -15,8 +15,9 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
     Route::post('/login', [AdminSessionController::class, 'login'])->name('login.post');
 
     Route::middleware(AdminAuth::class)->group(function (): void {
-        Route::get('/dashboard', fn () => view('admin.dashboard'))->name('dashboard');
+        Route::get('/dashboard', [AdminSessionController::class, 'dashboard'])->name('dashboard');
         Route::get('/export', [AdminSessionController::class, 'exportSurveys'])->name('export');
+        Route::delete('/surveys/{id}', [AdminSessionController::class, 'destroySurvey'])->name('surveys.destroy');
         Route::post('/logout', [AdminSessionController::class, 'logout'])->name('logout');
     }
     );

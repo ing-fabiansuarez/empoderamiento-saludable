@@ -37,37 +37,106 @@
     </header>
 
     <main class="flex-1 max-w-6xl mx-auto w-full px-4 py-10">
-        <div class="mb-8">
-            <h1 class="text-3xl font-extrabold text-blue-950 leading-tight mb-2">Panel de Control</h1>
-            <p class="text-slate-500 text-sm">Gestión e informes de la plataforma Empoweramiento Saludable.</p>
+        <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold text-blue-950 leading-tight mb-2">Panel de Control</h1>
+                <p class="text-slate-500 text-sm">Gestión e informes de la plataforma Empoderamiento Saludable.</p>
+            </div>
+            
+            <a href="{{ route('admin.export') }}" class="inline-flex bg-emerald-600 hover:bg-emerald-700 active:scale-[.98] text-white py-2.5 px-6 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg shadow-emerald-200 items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Exportar a Excel
+            </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @if(session('success'))
+            <div class="mb-6 bg-emerald-50 border-l-4 border-emerald-500 rounded-xl p-4 flex gap-3 shadow-sm">
+                <svg class="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                <p class="text-emerald-800 font-medium text-sm">{{ session('success') }}</p>
+            </div>
+        @endif
 
-            <!-- Export Card -->
-            <div class="bg-white rounded-3xl shadow-xl shadow-blue-900/5 border border-blue-50 overflow-hidden flex flex-col">
-                <div class="bg-gradient-to-br from-emerald-600 to-emerald-800 px-6 py-5 text-white flex items-center gap-3">
-                    <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+        <div class="bg-white rounded-3xl shadow-xl shadow-blue-900/5 border border-blue-50 overflow-hidden flex flex-col mb-6">
+            <div class="bg-gradient-to-br from-blue-700 to-blue-900 px-6 py-5 text-white flex items-center justify-between border-b border-blue-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-blue-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                     <div>
-                        <h2 class="font-bold text-lg">Base de Datos</h2>
-                        <p class="text-emerald-100 text-xs">Datos de encuestas FINDRISC</p>
+                        <h2 class="font-bold text-lg">Respuestas de Encuestas</h2>
+                        <p class="text-blue-200 text-xs">Listado de evaluaciones FINDRISC registradas</p>
                     </div>
                 </div>
 
-                <div class="p-6 flex-1 flex flex-col">
-                    <p class="text-sm text-slate-600 mb-6 flex-1 leading-relaxed">
-                        Descarga el consolidado completo de encuestas registradas por los usuarios. El archivo incluye identificadores, medidas antropométricas y resultados del score.
-                    </p>
-
-                    <a href="{{ route('admin.export') }}" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[.98] text-white py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        Exportar a Excel (.xlsx)
-                    </a>
-                </div>
+                <form method="GET" action="{{ route('admin.dashboard') }}" class="flex items-center gap-2 bg-blue-800/50 p-1.5 rounded-lg border border-blue-700/50">
+                    <label for="per_page" class="text-xs font-medium text-blue-100 ml-2">Mostrar:</label>
+                    <select name="per_page" id="per_page" onchange="this.form.submit()" class="bg-white border-0 rounded-md px-2 py-1 text-sm text-slate-700 focus:ring-2 focus:ring-blue-400 outline-none cursor-pointer">
+                        @foreach([5, 10, 15, 20, 25, 30, 40, 50] as $opt)
+                            <option value="{{ $opt }}" {{ $perPage == $opt ? 'selected' : '' }}>{{ $opt }}</option>
+                        @endforeach
+                    </select>
+                </form>
             </div>
-
+            
+            <div class="overflow-x-auto w-full">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-100">
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Participante</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Contacto</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Puntaje</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Riesgo</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse($surveys as $survey)
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">#{{ $survey->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="font-medium text-slate-800 text-sm">{{ $survey->names }} {{ $survey->surnames }}</div>
+                                    <div class="text-xs text-slate-400">{{ $survey->created_at->format('d/m/Y H:i') }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{{ $survey->mail }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-700">{{ $survey->score }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold 
+                                        @if($survey->risk_level === 'Bajo' || str_contains(strtolower($survey->risk_level), 'bajo')) bg-emerald-100 text-emerald-700
+                                        @elseif($survey->risk_level === 'Ligeramente elevado' || str_contains(strtolower($survey->risk_level), 'ligeramente')) bg-yellow-100 text-yellow-700
+                                        @elseif($survey->risk_level === 'Moderado' || str_contains(strtolower($survey->risk_level), 'moderado')) bg-orange-100 text-orange-700
+                                        @elseif(str_contains(strtolower($survey->risk_level), 'alto')) bg-red-100 text-red-700
+                                        @else bg-slate-100 text-slate-700 @endif
+                                    ">
+                                        {{ $survey->risk_level }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <form action="{{ route('admin.surveys.destroy', $survey->id) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este registro?');" class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="font-bold text-slate-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors" title="Eliminar registro">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-10 text-center text-slate-500 text-sm">
+                                    No hay encuestas registradas todavía.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            
+            @if($surveys->hasPages())
+                <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
+                    {{ $surveys->appends(['per_page' => $perPage])->links('pagination::tailwind') }}
+                </div>
+            @endif
         </div>
     </main>
 
