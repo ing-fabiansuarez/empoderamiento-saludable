@@ -16,6 +16,7 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
 
     Route::middleware(AdminAuth::class)->group(function (): void {
         Route::get('/dashboard', fn () => view('admin.dashboard'))->name('dashboard');
+        Route::get('/export', [AdminSessionController::class, 'exportSurveys'])->name('export');
         Route::post('/logout', [AdminSessionController::class, 'logout'])->name('logout');
     }
     );
