@@ -1,8 +1,22 @@
 <?php
 
+use App\Http\Controllers\AdminSessionController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Middleware\AdminAuth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SurveyController::class, 'index'])->name('surveys.index');
 Route::post('/survey', [SurveyController::class, 'store'])->name('surveys.store');
 Route::get('/results/{uuid}', [SurveyController::class, 'show'])->name('surveys.show');
+
+// Admin routes
+Route::prefix('admin')->name('admin.')->group(function (): void {
+    Route::get('/', [AdminSessionController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AdminSessionController::class, 'login'])->name('login.post');
+
+    Route::middleware(AdminAuth::class)->group(function (): void {
+        Route::get('/dashboard', fn () => view('admin.dashboard'))->name('dashboard');
+        Route::post('/logout', [AdminSessionController::class, 'logout'])->name('logout');
+    }
+    );
+});

@@ -12,6 +12,9 @@ class Survey extends Model
 
     protected $fillable = [
         'uuid',
+        'names',
+        'surnames',
+        'mail',
         'gender',
         'age',
         'weight',

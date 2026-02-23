@@ -23,6 +23,9 @@ class SurveyController extends Controller
     {
         $validated = $request->validate([
             'consent' => 'required|accepted',
+            'names' => 'required|string|max:100',
+            'surnames' => 'required|string|max:100',
+            'mail' => 'required|string|max:150',
             'gender' => 'required|in:M,F',
             'age' => 'required|integer|min:18|max:100',
             'weight' => 'required|numeric|min:30|max:250',

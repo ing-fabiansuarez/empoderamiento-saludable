@@ -184,14 +184,21 @@
                 <!-- Step 2 -->
                 <div class="step-item">
                     <div class="step-circle" id="circle-1">2</div>
-                    <span class="step-label" id="label-1">Datos</span>
+                    <span class="step-label" id="label-1">Identificación</span>
                 </div>
                 <!-- Connector 2→3 -->
                 <div class="step-connector"><div class="step-connector-fill" id="fill-1"></div></div>
                 <!-- Step 3 -->
                 <div class="step-item">
                     <div class="step-circle" id="circle-2">3</div>
-                    <span class="step-label" id="label-2">Hábitos</span>
+                    <span class="step-label" id="label-2">Datos</span>
+                </div>
+                <!-- Connector 3→4 -->
+                <div class="step-connector"><div class="step-connector-fill" id="fill-2"></div></div>
+                <!-- Step 4 -->
+                <div class="step-item">
+                    <div class="step-circle" id="circle-3">4</div>
+                    <span class="step-label" id="label-3">Hábitos</span>
                 </div>
             </div>
 
@@ -268,12 +275,59 @@
                     </div>
                 </section>
 
-                <!-- MEDIDAS ANTROPOMÉTRICAS -->
+                <!-- IDENTIFICACIÓN DEL PARTICIPANTE -->
                 <section id="step-2" class="border-b border-slate-100" style="display:none">
+                    <div class="bg-gradient-to-br from-violet-700 to-indigo-800 px-8 py-6 text-white">
+                        <div class="flex items-center gap-3 mb-1">
+                            <svg class="w-5 h-5 text-violet-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                            <span class="text-violet-300 text-sm font-medium uppercase tracking-widest">Sección 2</span>
+                        </div>
+                        <h2 class="text-xl font-bold">Datos del Participante</h2>
+                        <p class="text-violet-200 text-sm mt-1">Ingrese su información personal para el registro del estudio.</p>
+                    </div>
+
+                    <div class="p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Nombres</label>
+                                <input type="text" name="names" value="{{ old('names') }}" placeholder="ej. María Fernanda" required
+                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none transition-all focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,.15)]">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Apellidos</label>
+                                <input type="text" name="surnames" value="{{ old('surnames') }}" placeholder="ej. González Ramírez" required
+                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none transition-all focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,.15)]">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Correo Electrónico</label>
+                                <input type="text" name="mail" value="{{ old('mail') }}" placeholder="ej. correo@ejemplo.com" required
+                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none transition-all focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,.15)]">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-6">
+                            <button type="button" onclick="prevStep()"
+                                class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-2 border border-slate-200">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                                Anterior
+                            </button>
+                            <button type="button" onclick="nextStep()"
+                                class="bg-blue-700 hover:bg-blue-800 active:scale-[.98] text-white py-3 px-8 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg shadow-blue-100 flex items-center gap-2">
+                                Siguiente
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- MEDIDAS ANTROPOMÉTRICAS -->
+                <section id="step-3" class="border-b border-slate-100" style="display:none">
                     <div class="bg-gradient-to-br from-cyan-700 to-blue-800 px-8 py-6 text-white">
                         <div class="flex items-center gap-3 mb-1">
                             <svg class="w-5 h-5 text-cyan-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                            <span class="text-cyan-300 text-sm font-medium uppercase tracking-widest">Sección 2</span>
+                            <span class="text-cyan-300 text-sm font-medium uppercase tracking-widest">Sección 3</span>
                         </div>
 
                         <h2 class="text-xl font-bold">Datos Antropométricos</h2>
@@ -343,11 +397,11 @@
                 </section>
 
                 <!-- HÁBITOS -->
-                <section id="step-3" style="display:none">
+                <section id="step-4" style="display:none">
                     <div class="bg-gradient-to-br from-indigo-700 to-blue-900 px-8 py-6 text-white">
                         <div class="flex items-center gap-3 mb-1">
                             <svg class="w-5 h-5 text-indigo-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-                            <span class="text-indigo-300 text-sm font-medium uppercase tracking-widest">Sección 3</span>
+                            <span class="text-indigo-300 text-sm font-medium uppercase tracking-widest">Sección 4</span>
                         </div>
 
                         <h2 class="text-xl font-bold">Hábitos y Antecedentes de Salud</h2>
@@ -464,6 +518,7 @@
         document.getElementById('step-1'),
         document.getElementById('step-2'),
         document.getElementById('step-3'),
+        document.getElementById('step-4'),
     ];
 
     let currentStep = 0;
