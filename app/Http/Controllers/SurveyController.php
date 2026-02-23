@@ -104,9 +104,27 @@ class SurveyController extends Controller
             $riskLevel = 'Riesgo Muy Alto';
         }
 
+        // Map integer values to string labels as per requirements
+        $dailyActivityLabel = $validated['daily_activity'] == 0 ? 'si' : 'no'; // 0 = Sí, regularmente; 2 = No
+        $fruitConsumptionLabel = $validated['fruit_consumption'] == 0 ? 'si' : 'no'; // 0 = Sí, a diario; 1 = No
+        $antihypertensionLabel = $validated['antihypertensive_medication'] == 2 ? 'si' : 'no'; // 2 = Sí, 0 = No
+        $elevatedGlucoseLabel = $validated['elevated_glucose'] == 5 ? 'si' : 'no'; // 5 = Sí, 0 = No
+
+        $familyHistoryLabel = 'no';
+        if ($validated['family_history'] == 3) {
+            $familyHistoryLabel = 'familiar grado 2';
+        } elseif ($validated['family_history'] == 5) {
+            $familyHistoryLabel = 'familiar grado 1';
+        }
+
         // Create the record
         $survey = Survey::create(array_merge($validated, [
             'uuid' => (string) Str::uuid(),
+            'daily_activity' => $dailyActivityLabel,
+            'fruit_consumption' => $fruitConsumptionLabel,
+            'antihypertensive_medication' => $antihypertensionLabel,
+            'elevated_glucose' => $elevatedGlucoseLabel,
+            'family_history' => $familyHistoryLabel,
             'bmi' => round($bmi, 1),
             'score' => $score,
             'risk_level' => $riskLevel,
