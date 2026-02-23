@@ -56,6 +56,41 @@
         .consent-scroll::-webkit-scrollbar { width: 6px; }
         .consent-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 3px; }
         .consent-scroll::-webkit-scrollbar-thumb { background: #93c5fd; border-radius: 3px; }
+
+        /* Step indicator */
+        .step-indicator { display: flex; align-items: center; padding: 1.5rem 2rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+        .step-item { display: flex; flex-direction: column; align-items: center; gap: .35rem; flex-shrink: 0; }
+        .step-circle {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 2.5px solid #cbd5e1;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .85rem; font-weight: 800; color: #94a3b8;
+            background: #fff;
+            transition: all .35s cubic-bezier(.4,0,.2,1);
+            position: relative;
+        }
+        .step-circle.active {
+            border-color: #1d4ed8; color: #1d4ed8;
+            background: #eff6ff;
+            box-shadow: 0 0 0 5px rgba(59,130,246,.18);
+            transform: scale(1.12);
+        }
+        .step-circle.done {
+            border-color: #059669; background: #059669; color: #fff;
+        }
+        .step-circle.done::after {
+            content: '';
+            position: absolute;
+            width: 10px; height: 6px;
+            border-left: 2.5px solid #fff;
+            border-bottom: 2.5px solid #fff;
+            transform: rotate(-45deg) translate(1px, -1px);
+        }
+        .step-label { font-size: .68rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .06em; transition: color .3s; white-space: nowrap; }
+        .step-label.active { color: #1d4ed8; }
+        .step-label.done { color: #059669; }
+        .step-connector { flex: 1; height: 2.5px; background: #e2e8f0; border-radius: 9px; margin: 0 .5rem; margin-bottom: 1.2rem; overflow: hidden; position: relative; }
+        .step-connector-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1d4ed8, #059669); border-radius: 9px; transition: width .45s cubic-bezier(.4,0,.2,1); }
     </style>
 </head>
 <body class="min-h-screen bg-[#f0f6ff]">
@@ -137,6 +172,29 @@
 
         <!-- FORM CARD -->
         <div class="bg-white rounded-3xl shadow-xl border border-blue-50 overflow-hidden">
+            <!-- STEP INDICATOR -->
+            <div class="step-indicator" id="stepIndicator" aria-label="Progreso del formulario">
+                <!-- Step 1 -->
+                <div class="step-item">
+                    <div class="step-circle active" id="circle-0">1</div>
+                    <span class="step-label active" id="label-0">Consentimiento</span>
+                </div>
+                <!-- Connector 1→2 -->
+                <div class="step-connector"><div class="step-connector-fill" id="fill-0"></div></div>
+                <!-- Step 2 -->
+                <div class="step-item">
+                    <div class="step-circle" id="circle-1">2</div>
+                    <span class="step-label" id="label-1">Datos</span>
+                </div>
+                <!-- Connector 2→3 -->
+                <div class="step-connector"><div class="step-connector-fill" id="fill-1"></div></div>
+                <!-- Step 3 -->
+                <div class="step-item">
+                    <div class="step-circle" id="circle-2">3</div>
+                    <span class="step-label" id="label-2">Hábitos</span>
+                </div>
+            </div>
+
             <form id="findriscForm" action="{{ route('surveys.store') }}" method="POST">
                 @csrf
 
@@ -415,7 +473,30 @@
             step.style.display = i === index ? 'block' : 'none';
         });
         currentStep = index;
+        updateStepIndicator(index);
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateStepIndicator(activeIndex) {
+        const totalSteps = steps.length;
+        for (let i = 0; i < totalSteps; i++) {
+            const circle = document.getElementById('circle-' + i);
+            const label  = document.getElementById('label-' + i);
+            circle.classList.remove('active', 'done');
+            label.classList.remove('active', 'done');
+            if (i < activeIndex) {
+                circle.classList.add('done');
+                label.classList.add('done');
+            } else if (i === activeIndex) {
+                circle.classList.add('active');
+                label.classList.add('active');
+            }
+        }
+        // Animate connector fills
+        for (let c = 0; c < totalSteps - 1; c++) {
+            const fill = document.getElementById('fill-' + c);
+            fill.style.width = activeIndex > c ? '100%' : '0%';
+        }
     }
 
     function nextStep() {
