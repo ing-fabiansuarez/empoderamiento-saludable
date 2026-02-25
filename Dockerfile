@@ -1,19 +1,20 @@
 # Usamos PHP 8.2 con Apache
 FROM php:8.2-apache
 
-# 1. Instalar dependencias del sistema (Añadido libpq-dev para PostgreSQL)
+# 1. Instalar dependencias del sistema (Agregado libzip-dev)
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev \
     zip \
     unzip \
     git \
     curl
 
-# 2. Instalar extensiones de PHP (Cambiado pdo_mysql por pdo_pgsql)
-RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd
+# 2. Instalar extensiones de PHP (Agregado zip al final)
+RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip
 
 # Habilitar mod_rewrite para las rutas de Laravel
 RUN a2enmod rewrite
