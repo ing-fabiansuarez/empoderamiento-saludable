@@ -1,7 +1,7 @@
 # Usamos PHP 8.2 con Apache
 FROM php:8.2-apache
 
-# 1. Instalar dependencias del sistema (Agregado libzip-dev)
+# 1. Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libpng-dev \
@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     git \
     curl
 
-# 2. Instalar extensiones de PHP (Agregado zip al final)
+# 2. Instalar extensiones de PHP necesarias
 RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip
 
 # Habilitar mod_rewrite para las rutas de Laravel
@@ -34,11 +34,15 @@ ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Permisos de carpetas
+# Permisos de carpetas para Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Puerto de Render
 EXPOSE 80
 
-# Comando de inicio: Migraciones + Apache
-CMD php artisan migrate --force && apache2-foreground
+# Comando de inicio: Optimización de caché + Migraciones + Servidor
+CMD php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache && \
+    php artisan migrate --force && \
+    apache2-foreground
