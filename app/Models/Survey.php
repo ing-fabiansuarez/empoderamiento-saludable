@@ -12,9 +12,8 @@ class Survey extends Model
 
     protected $fillable = [
         'uuid',
-        'names',
-        'surnames',
         'mail',
+        'has_diabetes',
         'gender',
         'age',
         'weight',
@@ -29,4 +28,11 @@ class Survey extends Model
         'score',
         'risk_level',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'has_diabetes' => 'boolean',
+        ];
+    }
 }

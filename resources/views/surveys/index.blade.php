@@ -9,11 +9,9 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
 
-        body { font-family: 'Inter', sans-serif; }
- 
         /* Progress bar - keep for visual interest if needed, else remove */
         .progress-bar { transition: width .5s cubic-bezier(.4,0,.2,1); }
- 
+
         /* Radio/Checkbox custom */
         .choice-card input[type="radio"] { display: none; }
         .choice-card label {
@@ -41,17 +39,17 @@
             width: 7px; height: 7px;
             border-radius: 50%; background: white;
         }
- 
+
         /* Input focus */
-        input[type="number"], select {
+        input[type="number"], input[type="email"], input[type="text"], select {
             transition: border-color .2s, box-shadow .2s;
         }
-        input[type="number"]:focus, select:focus {
+        input[type="number"]:focus, input[type="email"]:focus, input[type="text"]:focus, select:focus {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59,130,246,.15);
         }
- 
+
         /* Scrollbar for consent */
         .consent-scroll::-webkit-scrollbar { width: 6px; }
         .consent-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 3px; }
@@ -86,11 +84,19 @@
             border-bottom: 2.5px solid #fff;
             transform: rotate(-45deg) translate(1px, -1px);
         }
+        .step-circle.skipped {
+            border-color: #94a3b8; background: #f1f5f9; color: #94a3b8;
+            opacity: .5;
+        }
         .step-label { font-size: .68rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: .06em; transition: color .3s; white-space: nowrap; }
         .step-label.active { color: #1d4ed8; }
         .step-label.done { color: #059669; }
         .step-connector { flex: 1; height: 2.5px; background: #e2e8f0; border-radius: 9px; margin: 0 .5rem; margin-bottom: 1.2rem; overflow: hidden; position: relative; }
         .step-connector-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1d4ed8, #059669); border-radius: 9px; transition: width .45s cubic-bezier(.4,0,.2,1); }
+
+        /* Diabetes warning panel */
+        .diabetes-notice { display: none; }
+        .diabetes-notice.visible { display: block; }
     </style>
 </head>
 <body class="min-h-screen bg-[#f0f6ff]">
@@ -150,9 +156,6 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
 
         <!-- VALIDATION ERRORS (shown above the card if there are errors) -->
@@ -215,7 +218,6 @@
                         <h2 class="text-xl font-bold">Consentimiento Informado</h2>
                         <p class="text-blue-200 text-sm mt-1">Por favor, lea detenidamente antes de participar.</p>
                     </div>
-
 
                     <div class="p-8">
                         <div class="consent-scroll bg-slate-50 rounded-2xl border border-slate-200 p-6 text-sm text-slate-600 leading-7 h-72 overflow-y-auto mb-6 space-y-4">
@@ -283,37 +285,63 @@
                             <span class="text-violet-300 text-sm font-medium uppercase tracking-widest">Sección 2</span>
                         </div>
                         <h2 class="text-xl font-bold">Datos del Participante</h2>
-                        <p class="text-violet-200 text-sm mt-1">Ingrese su información personal para el registro del estudio.</p>
+                        <p class="text-violet-200 text-sm mt-1">Ingrese su correo y responda la pregunta de pre-diagnóstico.</p>
                     </div>
 
-                    <div class="p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Nombres</label>
-                                <input type="text" name="names" value="{{ old('names') }}" placeholder="ej. María Fernanda" required
-                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none transition-all focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,.15)]">
-                            </div>
+                    <div class="p-8 space-y-6">
+                        <!-- Email field -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Correo Electrónico</label>
+                            <input type="email" name="mail" value="{{ old('mail') }}" placeholder="ej. correo@ejemplo.com" required
+                                class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none transition-all focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,.15)]">
+                        </div>
 
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Apellidos</label>
-                                <input type="text" name="surnames" value="{{ old('surnames') }}" placeholder="ej. González Ramírez" required
-                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none transition-all focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,.15)]">
+                        <!-- Pre-diagnosis question -->
+                        <fieldset>
+                            <legend class="block text-sm font-semibold text-slate-700 mb-3">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-violet-100 text-violet-700 text-xs font-black flex items-center justify-center flex-shrink-0">?</span>
+                                    ¿Ha sido <strong class="mx-1 text-violet-700">diagnosticado/a previamente</strong> con diabetes mellitus?
+                                </span>
+                            </legend>
+                            <div class="choice-card grid grid-cols-2 gap-3">
+                                <div>
+                                    <input type="radio" id="diab_yes" name="has_diabetes" value="1"
+                                        {{ old('has_diabetes') === '1' ? 'checked' : '' }}
+                                        onchange="onDiabetesChange(this.value)" required>
+                                    <label for="diab_yes" class="justify-center text-sm font-medium text-slate-700">
+                                        <span class="radio-dot"></span>
+                                        Sí, tengo diagnóstico
+                                    </label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="diab_no" name="has_diabetes" value="0"
+                                        {{ old('has_diabetes', '') === '0' ? 'checked' : '' }}
+                                        onchange="onDiabetesChange(this.value)">
+                                    <label for="diab_no" class="justify-center text-sm font-medium text-slate-700">
+                                        <span class="radio-dot"></span>
+                                        No, no tengo diagnóstico
+                                    </label>
+                                </div>
                             </div>
+                        </fieldset>
 
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Correo Electrónico</label>
-                                <input type="text" name="mail" value="{{ old('mail') }}" placeholder="ej. correo@ejemplo.com" required
-                                    class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm font-medium placeholder:text-slate-300 outline-none transition-all focus:border-blue-400 focus:shadow-[0_0_0_3px_rgba(59,130,246,.15)]">
+                        <!-- Notice when already diagnosed -->
+                        <div id="diabetesNotice" class="diabetes-notice bg-amber-50 border border-amber-300 rounded-2xl p-5 flex gap-4">
+                            <svg class="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                            <div>
+                                <p class="font-bold text-amber-800 text-sm mb-1">Diagnóstico previo registrado</p>
+                                <p class="text-amber-700 text-sm leading-relaxed">Como ya cuenta con un diagnóstico de diabetes mellitus, <strong>no es necesario completar el test FINDRISC</strong>. Al continuar, su participación quedará registrada directamente con un código de identificación único.</p>
                             </div>
                         </div>
 
-                        <div class="flex justify-between mt-6">
+                        <div class="flex justify-between">
                             <button type="button" onclick="prevStep()"
                                 class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-2 border border-slate-200">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
                                 Anterior
                             </button>
-                            <button type="button" onclick="nextStep()"
+                            <button type="button" id="step2NextBtn" onclick="nextStepFromIdentification()"
                                 class="bg-blue-700 hover:bg-blue-800 active:scale-[.98] text-white py-3 px-8 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg shadow-blue-100 flex items-center gap-2">
                                 Siguiente
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
@@ -503,6 +531,40 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- CONFIRMACIÓN DIABETES (paso de envío para diagnosticados) -->
+                <section id="step-diabetes" style="display:none">
+                    <div class="bg-gradient-to-br from-amber-500 to-orange-700 px-8 py-6 text-white">
+                        <div class="flex items-center gap-3 mb-1">
+                            <svg class="w-5 h-5 text-amber-200" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                            <span class="text-amber-200 text-sm font-medium uppercase tracking-widest">Registro Especial</span>
+                        </div>
+                        <h2 class="text-xl font-bold">Participante con Diagnóstico Previo</h2>
+                        <p class="text-amber-100 text-sm mt-1">No se aplicará el test FINDRISC. Su participación será registrada.</p>
+                    </div>
+
+                    <div class="p-8 space-y-6">
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 flex gap-4">
+                            <svg class="w-8 h-8 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            <div>
+                                <p class="font-bold text-amber-900 mb-1">Todo listo para registrar su participación</p>
+                                <p class="text-amber-800 text-sm leading-relaxed">Dado que usted ya cuenta con diagnóstico de diabetes mellitus, el cuestionario FINDRISC no aplica en su caso. Al enviar, se generará un <strong>código de participante único</strong> que podrá conservar como constancia.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                            <button type="button" onclick="prevStep()"
+                                class="sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 border border-slate-200">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                                Anterior
+                            </button>
+                            <button type="submit" class="flex-1 bg-amber-600 hover:bg-amber-700 active:scale-[.98] text-white py-4 rounded-xl font-bold text-base tracking-wide transition-all shadow-lg shadow-amber-200 flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Registrar Participación
+                            </button>
+                        </div>
+                    </div>
+                </section>
             </form>
         </div>
 
@@ -514,48 +576,99 @@
         </footer>
     </main>
 <script>
-    const steps = [
+    // All sections: step-1, step-2, step-3, step-4, step-diabetes
+    // Logical steps array depends on has_diabetes selection
+    const allSections = [
         document.getElementById('step-1'),
         document.getElementById('step-2'),
         document.getElementById('step-3'),
         document.getElementById('step-4'),
+        document.getElementById('step-diabetes'),
     ];
 
-    let currentStep = 0;
+    // Normal flow: steps 0,1,2,3 (indices into allSections)
+    // Diabetes flow: steps 0,1,4 (skip sections 2,3)
+    let currentSectionIndex = 0;
+    let isDiabetes = false;
 
-    function showStep(index) {
-        steps.forEach((step, i) => {
-            step.style.display = i === index ? 'block' : 'none';
+    function getFlowIndices() {
+        return isDiabetes ? [0, 1, 4] : [0, 1, 2, 3];
+    }
+
+    function getFlowPosition() {
+        const flow = getFlowIndices();
+        return flow.indexOf(currentSectionIndex);
+    }
+
+    function showSection(sectionIndex) {
+        allSections.forEach((s, i) => {
+            s.style.display = i === sectionIndex ? 'block' : 'none';
         });
-        currentStep = index;
-        updateStepIndicator(index);
+        currentSectionIndex = sectionIndex;
+        updateStepIndicator();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function updateStepIndicator(activeIndex) {
-        const totalSteps = steps.length;
-        for (let i = 0; i < totalSteps; i++) {
+    function updateStepIndicator() {
+        const flow = getFlowIndices();
+        const flowPos = flow.indexOf(currentSectionIndex);
+        // Visual steps are always 4 circles (0-3 in the indicator)
+        // Map: indicator[0]=consent, indicator[1]=identification, indicator[2]=datos, indicator[3]=hábitos
+        for (let i = 0; i < 4; i++) {
             const circle = document.getElementById('circle-' + i);
             const label  = document.getElementById('label-' + i);
-            circle.classList.remove('active', 'done');
+            circle.classList.remove('active', 'done', 'skipped');
             label.classList.remove('active', 'done');
-            if (i < activeIndex) {
+
+            if (isDiabetes && (i === 2 || i === 3)) {
+                // Steps 3 and 4 are skipped
+                circle.classList.add('skipped');
+                continue;
+            }
+
+            // Map indicator index to section index
+            const sectionForIndicator = [0, 1, 2, 3][i];
+            const indicatorFlowPos = flow.indexOf(sectionForIndicator);
+
+            if (indicatorFlowPos < 0) {
+                // Not in flow
+                circle.classList.add('skipped');
+            } else if (indicatorFlowPos < flowPos) {
                 circle.classList.add('done');
                 label.classList.add('done');
-            } else if (i === activeIndex) {
+            } else if (sectionForIndicator === currentSectionIndex || (isDiabetes && i === 1 && currentSectionIndex === 4)) {
                 circle.classList.add('active');
                 label.classList.add('active');
             }
         }
+
         // Animate connector fills
-        for (let c = 0; c < totalSteps - 1; c++) {
+        for (let c = 0; c < 3; c++) {
             const fill = document.getElementById('fill-' + c);
-            fill.style.width = activeIndex > c ? '100%' : '0%';
+            const nextSectionIdx = [0, 1, 2, 3][c + 1];
+            const nextFlowPos = flow.indexOf(nextSectionIdx);
+            if (isDiabetes && c >= 1) {
+                fill.style.width = currentSectionIndex === 4 ? '100%' : '0%';
+            } else {
+                fill.style.width = (nextFlowPos >= 0 && nextFlowPos <= flowPos) ? '100%' : '0%';
+            }
         }
     }
 
+    function onDiabetesChange(value) {
+        isDiabetes = value === '1';
+        const notice = document.getElementById('diabetesNotice');
+        if (isDiabetes) {
+            notice.classList.add('visible');
+        } else {
+            notice.classList.remove('visible');
+        }
+        // Update step indicator to show skipped state
+        updateStepIndicator();
+    }
+
     function nextStep() {
-        const section = steps[currentStep];
+        const section = allSections[currentSectionIndex];
         const inputs = section.querySelectorAll('input, select');
         let firstInvalid = null;
 
@@ -570,16 +683,61 @@
             return;
         }
 
-        if (currentStep < steps.length - 1) {
-            showStep(currentStep + 1);
+        const flow = getFlowIndices();
+        const pos = flow.indexOf(currentSectionIndex);
+        if (pos < flow.length - 1) {
+            showSection(flow[pos + 1]);
+        }
+    }
+
+    function nextStepFromIdentification() {
+        // Validate the current section first
+        const section = allSections[currentSectionIndex];
+        const inputs = section.querySelectorAll('input[name="mail"], input[name="has_diabetes"]');
+        let firstInvalid = null;
+
+        for (const input of inputs) {
+            if (!input.checkValidity()) {
+                firstInvalid = firstInvalid ?? input;
+            }
+        }
+
+        if (firstInvalid) {
+            firstInvalid.reportValidity();
+            return;
+        }
+
+        // Check that has_diabetes radio is selected
+        const diabetesSelected = document.querySelector('input[name="has_diabetes"]:checked');
+        if (!diabetesSelected) {
+            document.getElementById('diab_yes').reportValidity();
+            return;
+        }
+
+        // Proceed based on selection
+        const flow = getFlowIndices();
+        const pos = flow.indexOf(currentSectionIndex);
+        if (pos < flow.length - 1) {
+            showSection(flow[pos + 1]);
         }
     }
 
     function prevStep() {
-        if (currentStep > 0) {
-            showStep(currentStep - 1);
+        const flow = getFlowIndices();
+        const pos = flow.indexOf(currentSectionIndex);
+        if (pos > 0) {
+            showSection(flow[pos - 1]);
         }
     }
+
+    // Initialize: restore has_diabetes state if there were validation errors (old input)
+    @if(old('has_diabetes') === '1')
+        isDiabetes = true;
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('diabetesNotice').classList.add('visible');
+            updateStepIndicator();
+        });
+    @endif
 </script>
 </body>
 </html>

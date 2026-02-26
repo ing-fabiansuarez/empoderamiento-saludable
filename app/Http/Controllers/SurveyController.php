@@ -23,20 +23,34 @@ class SurveyController extends Controller
     {
         $validated = $request->validate([
             'consent' => 'required|accepted',
-            'names' => 'required|string|max:100',
-            'surnames' => 'required|string|max:100',
             'mail' => 'required|string|max:150',
-            'gender' => 'required|in:M,F',
-            'age' => 'required|integer|min:18|max:100',
-            'weight' => 'required|numeric|min:30|max:250',
-            'height' => 'required|numeric|min:120|max:220',
-            'waist' => 'required|numeric|min:40|max:200',
-            'daily_activity' => 'required|integer|in:0,2',
-            'fruit_consumption' => 'required|integer|in:0,1',
-            'antihypertensive_medication' => 'required|integer|in:0,2',
-            'elevated_glucose' => 'required|integer|in:0,5',
-            'family_history' => 'required|integer|in:0,3,5',
+            'has_diabetes' => 'required|in:0,1',
+            'gender' => 'required_if:has_diabetes,0|in:M,F',
+            'age' => 'required_if:has_diabetes,0|nullable|integer|min:18|max:100',
+            'weight' => 'required_if:has_diabetes,0|nullable|numeric|min:30|max:250',
+            'height' => 'required_if:has_diabetes,0|nullable|numeric|min:120|max:220',
+            'waist' => 'required_if:has_diabetes,0|nullable|numeric|min:40|max:200',
+            'daily_activity' => 'required_if:has_diabetes,0|nullable|integer|in:0,2',
+            'fruit_consumption' => 'required_if:has_diabetes,0|nullable|integer|in:0,1',
+            'antihypertensive_medication' => 'required_if:has_diabetes,0|nullable|integer|in:0,2',
+            'elevated_glucose' => 'required_if:has_diabetes,0|nullable|integer|in:0,5',
+            'family_history' => 'required_if:has_diabetes,0|nullable|integer|in:0,3,5',
         ]);
+
+        $hasDiabetes = (bool) $validated['has_diabetes'];
+
+        // Already diagnosed — skip FINDRISC calculation
+        if ($hasDiabetes) {
+            $survey = Survey::create([
+                'uuid' => (string) Str::uuid(),
+                'mail' => $validated['mail'],
+                'has_diabetes' => true,
+                'score' => null,
+                'risk_level' => 'Diagnosticado con Diabetes',
+            ]);
+
+            return redirect()->route('surveys.show', $survey->uuid)->with('success', 'Registro guardado con éxito.');
+        }
 
         // Calculate BMI
         $heightInMeters = $validated['height'] / 100;
@@ -120,6 +134,7 @@ class SurveyController extends Controller
         // Create the record
         $survey = Survey::create(array_merge($validated, [
             'uuid' => (string) Str::uuid(),
+            'has_diabetes' => false,
             'daily_activity' => $dailyActivityLabel,
             'fruit_consumption' => $fruitConsumptionLabel,
             'antihypertensive_medication' => $antihypertensionLabel,
