@@ -65,33 +65,237 @@
 
                     <div class="p-8">
                         <div
-                            class="consent-scroll bg-slate-50 rounded-2xl border border-slate-200 p-6 text-sm text-slate-600 leading-7 h-72 overflow-y-auto mb-6 space-y-4">
-                            <!-- Consent content same as before -->
-                            <div class="flex gap-3">
-                                <div
-                                    class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                                    §</div>
-                                <div><strong class="text-slate-700">Marco Normativo:</strong> El presente estudio se
-                                    rige por la Declaración de Helsinki (1964, rev. 2002), la Resolución 008430 de 1993
-                                    del Ministerio de Salud de Colombia (Investigación de Riesgo Mínimo) y la Ley 1581
-                                    de 2012 de Protección de Datos Personales.</div>
+                            class="consent-scroll bg-slate-50 rounded-2xl border border-slate-200 p-6 text-sm text-slate-600 leading-7 h-96 overflow-y-auto mb-6 space-y-6">
+                            <div class="text-center mb-6">
+                                <h3 class="text-lg font-bold text-slate-900 leading-tight">CONSENTIMIENTO INFORMADO PARA
+                                    LA PARTICIPACIÓN EN PROYECTO DE INVESTIGACIÓN</h3>
                             </div>
-                            <!-- ... rest of consent items ... -->
-                            <div class="flex gap-3">
-                                <div
-                                    class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                                    ✓</div>
-                                <div><strong class="text-slate-700">Beneficios:</strong> Recibirá una estimación
-                                    orientativa de su riesgo y contribuirá al conocimiento científico en salud pública
-                                    colombiana.</div>
+
+                            <div class="space-y-2 p-4 bg-white rounded-xl border border-slate-100 shadow-sm">
+                                <p><strong class="text-blue-900">Título del Proyecto:</strong> Empoderamiento Saludable:
+                                    Desarrollo de una aplicación digital con un enfoque de informática participativa
+                                    para el desarrollo de hábitos saludables y conciencia de la enfermedad en personas
+                                    con diabetes y alto riesgo de diabetes</p>
+                                <p><strong class="text-blue-900">Investigador Principal:</strong> JORGE ANDRICK PARRA
+                                    VALENCIA.</p>
+                                <p><strong class="text-blue-900">Vinculación institucional:</strong> DOCENTE
+                                    INVESTIGADOR. DOCTORADO EN INGENIERÍA</p>
+                                <p><strong class="text-blue-900">Entidad:</strong> Universidad Autónoma de Bucaramanga.
+                                </p>
                             </div>
-                            <div class="flex gap-3">
-                                <div
-                                    class="w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
-                                    🔒</div>
-                                <div><strong class="text-slate-700">Confidencialidad:</strong> Se le asignará un código
-                                    anónimo automático. Sus datos serán protegidos y utilizados exclusivamente con fines
-                                    académicos.</div>
+
+                            <p class="italic text-slate-500 bg-slate-100 p-4 rounded-xl">
+                                Usted ha sido invitado a participar de esta investigación porque es una persona con
+                                riesgo alto conforme test de Findrisk ó diagnosticados con Diabetes Mellitus en Colombia
+                                en la población universitaria de las universidades Autónoma de Manizales, Autónoma de
+                                Occidente y Autónoma de Bucaramanga, por adhesión voluntaria. Se presenta a continuación
+                                el Consentimiento Informado el cual le será leído por un integrante del proyecto. Podrá
+                                hacer todas las preguntas que estime necesarias para tener completa claridad de su
+                                participación, confidencialidad de la información personal y retroalimentación de
+                                resultados.
+                            </p>
+
+                            <div class="space-y-4">
+                                <section>
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                        <span
+                                            class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">1</span>
+                                        Objetivo del Proyecto:
+                                    </h4>
+                                    <p class="pl-8">El presente proyecto pretende “Desarrollar y evaluar una app con
+                                        informática participativa para fomentar hábitos saludables y conciencia de la
+                                        diabetes en personas con alto riesgo o diagnosticadas, midiendo su adopción a
+                                        corto plazo”</p>
+                                </section>
+
+                                <section>
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                        <span
+                                            class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">2</span>
+                                        Procedimiento:
+                                    </h4>
+                                    <div class="pl-8 space-y-2">
+                                        <p>Como participante en este estudio, se le pedirá:</p>
+                                        <ul class="list-decimal pl-5 space-y-2">
+                                            <li>Completar formularios escritos o electrónicos que contengan preguntas
+                                                sobre sus experiencias, opiniones, comportamientos o características
+                                                demográficas y clínicas relevantes para el estudio.</li>
+                                            <li>Participar en entrevistas individualmente o en grupos para obtener
+                                                información más detallada sobre sus experiencias, actitudes, o
+                                                percepciones relacionadas con el tema de investigación.</li>
+                                            <li>Utilizar dispositivos de monitoreo o registradores de datos en la
+                                                aplicación diseñada desde un dispositivo de mi propiedad para registrar
+                                                datos relevantes para el estudio</li>
+                                            <li>Permitir el acceso a registros de la aplicación la que incluye
+                                                información personal, uso de la aplicación, funcionalidades, resultados
+                                                de acciones reportadas.</li>
+                                            <li>Asistir a sesiones de capacitación o talleres educativos de forma libre
+                                                y voluntaria</li>
+                                        </ul>
+                                        <p class="mt-4">Esta actividad será coordinada por el equipo de investigación
+                                            del proyecto. La recolección de información se realizará por medio de
+                                            instrumentos electrónicos con almacenamiento seguro de datos conforme las
+                                            etapas del proyecto.</p>
+                                        <p>En una primera etapa, se le aplicarán unas encuestas para determinar su nivel
+                                            de riesgo en Diabetes Mellitus que incluyen información personal sobre
+                                            condiciones de salud, factores hereditarios, aspectos de vida y condición
+                                            física. Posteriormente se aplicarán encuestas específicas sobre el proceso
+                                            de desarrollo de la aplicación enfocado a comprender su visión de la misma
+                                            para participar con sus comentarios en el diseño. En una tercera etapa, se
+                                            le solicitará instalar y utilizar a mi criterio una aplicación móvil de
+                                            salud, recibiendo información particular sobre el uso de la aplicación y
+                                            condiciones de cuidado de la salud y la enfermedad por diversos medios tales
+                                            como correo electrónico, avisos de la aplicación, llamadas telefónicas o
+                                            encuentros presenciales o virtuales. Finalmente recibirá una información del
+                                            progreso en el uso de la herramienta y una retroalimentación para
+                                            información personal y aprovechamiento propio en mi cuidado personal a
+                                            través de la aplicación y por correo electrónico.</p>
+                                        <p><strong class="text-slate-700">Duración:</strong> Este proceso tendrá una
+                                            duración mínima de seis (6) meses, máximo ocho (8) con posibilidad de
+                                            abandono voluntario cuando lo desee hacer sin requerir notificación o
+                                            información al grupo investigador.</p>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                        <span
+                                            class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">3</span>
+                                        Riesgos y beneficios:
+                                    </h4>
+                                    <div class="pl-8 space-y-4">
+                                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                            <p class="text-xs text-blue-800 leading-relaxed">De acuerdo con la <strong
+                                                    class="text-blue-900">Resolución 8430 de 1993</strong> del
+                                                Ministerio de Salud de Colombia, esta investigación se clasifica como
+                                                una <strong>investigación de riesgo mínimo</strong>, ya que utiliza
+                                                encuestas, entrevistas, herramientas digitales y análisis de información
+                                                sin intervención directa sobre la salud del participante.</p>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-emerald-700">Beneficios informados:</p>
+                                            <ul class="list-disc pl-5 space-y-1">
+                                                <li><strong class="text-slate-700">Contribuir al avance del
+                                                        conocimiento:</strong> Al participar en el estudio, podré
+                                                    contribuir a la comprensión del uso de las aplicaciones móviles para
+                                                    el beneficio de la salud, lo que puede ayudar a mejorar la calidad
+                                                    de vida de otras personas en el futuro.</li>
+                                                <li><strong class="text-slate-700">Aprendizaje y conciencia:</strong>
+                                                    Participar en el estudio me dará la oportunidad de aprender más
+                                                    sobre su salud, diabetes, lo que puede aumentar mi conciencia y
+                                                    conocimiento sobre temas importantes relacionados con mi bienestar.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-red-700">Posibles riesgos asociados:</p>
+                                            <ul class="list-disc pl-5 space-y-2">
+                                                <li><strong class="text-slate-700">Riesgos físicos mínimos:</strong> Si
+                                                    la aplicación incluye recomendaciones de actividad física, podría
+                                                    haber un riesgo mínimo de lesiones asociadas con el aumento de la
+                                                    actividad física, como esguinces musculares o fatiga.</li>
+                                                <li><strong class="text-slate-700">Riesgos emocionales:</strong> Los
+                                                    participantes podrían experimentar angustia emocional si la
+                                                    aplicación aborda temas relacionados con la diabetes que les
+                                                    resultan sensibles o estresantes. Por ejemplo, la visualización de
+                                                    información sobre los posibles riesgos de salud asociados con la
+                                                    diabetes podría generar ansiedad.</li>
+                                                <li><strong class="text-slate-700">Riesgos de privacidad y
+                                                        confidencialidad:</strong> La recopilación de datos personales o
+                                                    médicos a través de la aplicación podría plantear riesgos de
+                                                    privacidad si la información se ve comprometida o si los
+                                                    participantes no están completamente informados sobre cómo se
+                                                    utilizarán y protegerán sus datos.</li>
+                                                <li><strong class="text-slate-700">Riesgos sociales:</strong> Algunos
+                                                    participantes podrían experimentar estigmatización o discriminación
+                                                    relacionada con su condición de diabetes si otros descubren su
+                                                    participación en el estudio a través de la aplicación o si comparten
+                                                    información sobre su salud en redes sociales vinculadas a la
+                                                    aplicación.</li>
+                                                <li><strong class="text-slate-700">Riesgos de seguridad
+                                                        informática:</strong> Existe el riesgo de que la aplicación
+                                                    pueda verse comprometida por ciberataques, lo que podría resultar en
+                                                    la pérdida o divulgación no autorizada de datos personales o médicos
+                                                    de los participantes.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                        <span
+                                            class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">4</span>
+                                        Confidencialidad:
+                                    </h4>
+                                    <p class="pl-8">Toda la información recopilada durante el estudio se mantendrá en
+                                        estricta confidencialidad. Los datos serán almacenados de manera segura en el
+                                        Drive de la UNAB y solo el equipo de investigación tendrá acceso a ellos. En los
+                                        informes o publicaciones que resulten de esta investigación, los datos se
+                                        presentarán de manera agregada y anonimizada para proteger su identidad. Este
+                                        Consentimiento permite el cumplimiento de la <strong class="text-slate-700">Ley
+                                            1581 de 2012</strong> y sus decretos reglamentarios 1377 de 2013 y 886 de
+                                        2014.</p>
+                                </section>
+
+                                <section>
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                        <span
+                                            class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">5</span>
+                                        Propiedad intelectual
+                                    </h4>
+                                    <ul class="list-disc pl-13 space-y-1">
+                                        <li>Los derechos morales sobre la información personal pertenecen a los
+                                            participantes.</li>
+                                        <li>Los derechos patrimoniales sobre los resultados agregados del estudio
+                                            pertenecen a la Universidad Autónoma de Bucaramanga conforme a su política
+                                            institucional.</li>
+                                        <li>La información será utilizada únicamente con fines académicos y científicos.
+                                        </li>
+                                    </ul>
+                                </section>
+
+                                <section>
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                        <span
+                                            class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">6</span>
+                                        Voluntariedad:
+                                    </h4>
+                                    <p class="pl-8">Mi participación en este proyecto es completamente voluntaria. Si
+                                        decido participar, tengo el derecho de retirarme en cualquier momento sin
+                                        necesidad de proporcionar una explicación y sin que esto afecte sus relaciones
+                                        con la entidad o el equipo de investigación. El equipo investigador también
+                                        podrá suspender la participación de un participante en caso de presentarse
+                                        situaciones que lo justifiquen, informando oportunamente al participante.</p>
+                                </section>
+
+                                <section>
+                                    <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                        <span
+                                            class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">7</span>
+                                        Contacto:
+                                    </h4>
+                                    <div class="pl-8 space-y-2">
+                                        <p><strong class="text-slate-700">Investigador Principal:</strong> Jorge Andrick
+                                            Parra Valencia (<a href="mailto:japarra@unab.edu.co"
+                                                class="text-blue-600 hover:underline">japarra@unab.edu.co</a>)</p>
+                                        <p><strong class="text-slate-700">Consultas Éticas (CIEI UNAB):</strong> <a
+                                                href="mailto:ciei@unab.edu.co"
+                                                class="text-blue-600 hover:underline">ciei@unab.edu.co</a></p>
+                                    </div>
+                                </section>
+                            </div>
+
+                            <div class="border-t border-slate-200 pt-6 mt-8">
+                                <p class="text-center font-bold text-slate-900 mb-4 uppercase tracking-tighter">
+                                    Declaración de Consentimiento</p>
+                                <p class="text-slate-600 leading-relaxed text-center italic">
+                                    "Al aceptar este documento, manifiesto que he leído y comprendido la información
+                                    proporcionada. Entiendo que mi participación es voluntaria y que puedo retirarme en
+                                    cualquier momento. Doy mi consentimiento para participar en este proyecto de
+                                    investigación e identificado/a con mi correo electrónico, acepto voluntariamente
+                                    participar."
+                                </p>
                             </div>
                         </div>
 
@@ -129,12 +333,13 @@
                 <section id="step-2" class="border-b border-slate-100">
                     <div class="bg-gradient-to-br from-violet-700 to-indigo-800 px-8 py-6 text-white">
                         <div class="flex items-center gap-3 mb-1">
-                            <svg class="w-5 h-5 text-violet-300" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-violet-300" fill="none" stroke="currentColor"
+                                stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
-                            <span class="text-violet-300 text-sm font-medium uppercase tracking-widest">Sección 2</span>
+                            <span class="text-violet-300 text-sm font-medium uppercase tracking-widest">Sección
+                                2</span>
                         </div>
                         <h2 class="text-xl font-bold">Datos del Participante</h2>
                         <p class="text-violet-200 text-sm mt-1">Ingrese su correo y responda la pregunta de

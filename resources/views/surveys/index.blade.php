@@ -176,9 +176,9 @@
     <main class="max-w-4xl mx-auto px-4 py-10">
         <div class="mb-10 text-center md:text-left">
             <h1 class="text-3xl md:text-4xl font-extrabold text-blue-950 leading-tight mb-2">Evaluación de Riesgo de
-                Diabetes</h1>
+                Diabetes</h1>{{-- 
             <p class="text-slate-500 text-sm max-w-lg">Complete el test anónimo para estimar su riesgo de desarrollar
-                diabetes tipo 2.</p>
+                diabetes tipo 2.</p> --}}
         </div>
 
         <livewire:survey-form />
