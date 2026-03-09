@@ -19,5 +19,10 @@ class AdminUserSeeder extends Seeder
             ['user' => 'andrick.parra@gmail.com'],
             ['password' => Hash::make('Unab2026*')],
         );
+
+        AdminUser::firstOrCreate(
+            ['user' => 'EstudianteUnab'],
+            ['password' => Hash::make('EstudianteUNAB2026*')],
+        );
     }
 }
