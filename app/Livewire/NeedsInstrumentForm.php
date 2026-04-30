@@ -18,6 +18,16 @@ class NeedsInstrumentForm extends Component
     public $hopes = '';
 
     public $successMessage = false;
+    public $isAlreadySubmitted = false;
+
+    public function updatedUuid($value)
+    {
+        if (!empty($value)) {
+            $this->isAlreadySubmitted = NeedsInstrument::where('uuid', $value)->exists();
+        } else {
+            $this->isAlreadySubmitted = false;
+        }
+    }
 
     public function save()
     {

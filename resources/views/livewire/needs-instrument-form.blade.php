@@ -35,13 +35,19 @@
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-1">ID Único (Anonimizado) <span class="text-red-500">*</span></label>
                                 <p class="text-xs text-slate-500 mb-2">Ingrese el código que recibió en su correo al finalizar la encuesta inicial (FINDRISC).</p>
-                                <input type="text" wire:model="uuid" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 font-mono" placeholder="Ej: 123e4567-e89b-12d3-a456-426614174000">
+                                <input type="text" wire:model.live.debounce.500ms="uuid" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 font-mono" placeholder="Ej: 123e4567-e89b-12d3-a456-426614174000">
+                                @if($isAlreadySubmitted)
+                                    <div class="mt-2 p-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-sm flex items-start gap-2">
+                                        <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                        <p>Este ID Único ya ha completado la encuesta. Los campos han sido deshabilitados.</p>
+                                    </div>
+                                @endif
                                 @error('uuid') <span class="text-red-500 text-xs mt-1 block font-medium">{{ $message }}</span> @enderror
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Rol en el Sistema <span class="text-red-500">*</span></label>
-                                <select wire:model="role" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
+                                <select wire:model="role" @disabled($isAlreadySubmitted) class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 disabled:bg-slate-100 disabled:text-slate-500">
                                     <option value="">Seleccione su rol...</option>
                                     <option value="Estudiante">Estudiante</option>
                                     <option value="Administrativo">Administrativo</option>
@@ -53,16 +59,16 @@
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Nivel de Riesgo (Resultado FINDRISC) <span class="text-red-500">*</span></label>
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-                                        <input type="radio" wire:model="risk_level" value="Bajo" class="w-4 h-4 text-teal-600 focus:ring-teal-500">
+                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl {{ $isAlreadySubmitted ? 'opacity-50 cursor-not-allowed bg-slate-100' : 'cursor-pointer hover:bg-slate-100' }} transition-colors">
+                                        <input type="radio" wire:model="risk_level" value="Bajo" @disabled($isAlreadySubmitted) class="w-4 h-4 text-teal-600 focus:ring-teal-500">
                                         <span class="text-sm font-medium text-slate-700">Bajo</span>
                                     </label>
-                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-                                        <input type="radio" wire:model="risk_level" value="Moderado" class="w-4 h-4 text-teal-600 focus:ring-teal-500">
+                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl {{ $isAlreadySubmitted ? 'opacity-50 cursor-not-allowed bg-slate-100' : 'cursor-pointer hover:bg-slate-100' }} transition-colors">
+                                        <input type="radio" wire:model="risk_level" value="Moderado" @disabled($isAlreadySubmitted) class="w-4 h-4 text-teal-600 focus:ring-teal-500">
                                         <span class="text-sm font-medium text-slate-700">Moderado</span>
                                     </label>
-                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-                                        <input type="radio" wire:model="risk_level" value="Alto" class="w-4 h-4 text-teal-600 focus:ring-teal-500">
+                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl {{ $isAlreadySubmitted ? 'opacity-50 cursor-not-allowed bg-slate-100' : 'cursor-pointer hover:bg-slate-100' }} transition-colors">
+                                        <input type="radio" wire:model="risk_level" value="Alto" @disabled($isAlreadySubmitted) class="w-4 h-4 text-teal-600 focus:ring-teal-500">
                                         <span class="text-sm font-medium text-slate-700">Alto</span>
                                     </label>
                                 </div>
@@ -73,24 +79,24 @@
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Barrera Principal Identificada <span class="text-red-500">*</span></label>
                                 <p class="text-xs text-slate-500 mb-3">¿Qué es lo que más le dificulta hoy mantener un hábito saludable en el campus?</p>
                                 <div class="space-y-2">
-                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-                                        <input type="radio" wire:model.live="barrier" value="Falta de tiempo." class="w-4 h-4 text-teal-600 focus:ring-teal-500">
+                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl {{ $isAlreadySubmitted ? 'opacity-50 cursor-not-allowed bg-slate-100' : 'cursor-pointer hover:bg-slate-100' }} transition-colors">
+                                        <input type="radio" wire:model.live="barrier" value="Falta de tiempo." @disabled($isAlreadySubmitted) class="w-4 h-4 text-teal-600 focus:ring-teal-500">
                                         <span class="text-sm text-slate-700">Falta de tiempo.</span>
                                     </label>
-                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-                                        <input type="radio" wire:model.live="barrier" value="Oferta alimenticia limitada." class="w-4 h-4 text-teal-600 focus:ring-teal-500">
+                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl {{ $isAlreadySubmitted ? 'opacity-50 cursor-not-allowed bg-slate-100' : 'cursor-pointer hover:bg-slate-100' }} transition-colors">
+                                        <input type="radio" wire:model.live="barrier" value="Oferta alimenticia limitada." @disabled($isAlreadySubmitted) class="w-4 h-4 text-teal-600 focus:ring-teal-500">
                                         <span class="text-sm text-slate-700">Oferta alimenticia limitada.</span>
                                     </label>
-                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-                                        <input type="radio" wire:model.live="barrier" value="Olvido / Falta de recordatorios." class="w-4 h-4 text-teal-600 focus:ring-teal-500">
+                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl {{ $isAlreadySubmitted ? 'opacity-50 cursor-not-allowed bg-slate-100' : 'cursor-pointer hover:bg-slate-100' }} transition-colors">
+                                        <input type="radio" wire:model.live="barrier" value="Olvido / Falta de recordatorios." @disabled($isAlreadySubmitted) class="w-4 h-4 text-teal-600 focus:ring-teal-500">
                                         <span class="text-sm text-slate-700">Olvido / Falta de recordatorios.</span>
                                     </label>
-                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-                                        <input type="radio" wire:model.live="barrier" value="Falta de motivación social." class="w-4 h-4 text-teal-600 focus:ring-teal-500">
+                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl {{ $isAlreadySubmitted ? 'opacity-50 cursor-not-allowed bg-slate-100' : 'cursor-pointer hover:bg-slate-100' }} transition-colors">
+                                        <input type="radio" wire:model.live="barrier" value="Falta de motivación social." @disabled($isAlreadySubmitted) class="w-4 h-4 text-teal-600 focus:ring-teal-500">
                                         <span class="text-sm text-slate-700">Falta de motivación social.</span>
                                     </label>
-                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
-                                        <input type="radio" wire:model.live="barrier" value="Otro" class="w-4 h-4 text-teal-600 focus:ring-teal-500">
+                                    <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl {{ $isAlreadySubmitted ? 'opacity-50 cursor-not-allowed bg-slate-100' : 'cursor-pointer hover:bg-slate-100' }} transition-colors">
+                                        <input type="radio" wire:model.live="barrier" value="Otro" @disabled($isAlreadySubmitted) class="w-4 h-4 text-teal-600 focus:ring-teal-500">
                                         <span class="text-sm text-slate-700">Otro</span>
                                     </label>
                                 </div>
@@ -98,7 +104,7 @@
 
                                 @if($barrier === 'Otro')
                                 <div class="mt-3 pl-8">
-                                    <input type="text" wire:model="barrier_other" class="w-full px-4 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Especifique su barrera principal...">
+                                    <input type="text" wire:model="barrier_other" @disabled($isAlreadySubmitted) class="w-full px-4 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm disabled:bg-slate-100 disabled:text-slate-500" placeholder="Especifique su barrera principal...">
                                     @error('barrier_other') <span class="text-red-500 text-xs mt-1 block font-medium">{{ $message }}</span> @enderror
                                 </div>
                                 @endif
@@ -115,13 +121,13 @@
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Percepción vs. Realidad <span class="text-red-500">*</span></label>
                                 <p class="text-xs text-slate-500 mb-4">En una escala de 1 a 10, ¿qué tan saludable cree que es su estilo de vida actual?</p>
-                                <div class="flex items-center gap-4">
+                                <div class="flex items-center gap-4 {{ $isAlreadySubmitted ? 'opacity-50' : '' }}">
                                     <span class="text-xs font-bold text-slate-400">1 (Nada)</span>
-                                    <input type="range" wire:model.live="perception_vs_reality" min="1" max="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-teal-600">
+                                    <input type="range" wire:model.live="perception_vs_reality" min="1" max="10" @disabled($isAlreadySubmitted) class="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-teal-600 {{ $isAlreadySubmitted ? 'cursor-not-allowed' : 'cursor-pointer' }}">
                                     <span class="text-xs font-bold text-slate-400">10 (Muy)</span>
                                 </div>
                                 <div class="text-center mt-2">
-                                    <span class="inline-block bg-teal-100 text-teal-800 text-lg font-bold px-3 py-1 rounded-lg">{{ $perception_vs_reality }}</span>
+                                    <span class="inline-block bg-teal-100 text-teal-800 text-lg font-bold px-3 py-1 rounded-lg {{ $isAlreadySubmitted ? 'opacity-50' : '' }}">{{ $perception_vs_reality }}</span>
                                 </div>
                                 @error('perception_vs_reality') <span class="text-red-500 text-xs mt-1 block font-medium">{{ $message }}</span> @enderror
                             </div>
@@ -129,7 +135,7 @@
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">El "Bucle" de Fallo <span class="text-red-500">*</span></label>
                                 <p class="text-xs text-slate-500 mb-2">Describa una situación reciente donde intentó mejorar un hábito y falló. ¿Qué información le faltó en ese momento preciso para no abandonar? (Apunta a LP6: Flujos de Información).</p>
-                                <textarea wire:model="failure_loop" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ej: Intenté comer más ensalada la semana pasada, pero al medio día..."></textarea>
+                                <textarea wire:model="failure_loop" rows="4" @disabled($isAlreadySubmitted) class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm disabled:bg-slate-100 disabled:text-slate-500" placeholder="Ej: Intenté comer más ensalada la semana pasada, pero al medio día..."></textarea>
                                 @error('failure_loop') <span class="text-red-500 text-xs mt-1 block font-medium">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -144,7 +150,7 @@
                             <label class="block text-sm font-semibold text-slate-700 mb-2">Esperanzas (Hopes) <span class="text-red-500">*</span></label>
                             <p class="text-xs text-slate-500 mb-1">Si esta aplicación fuera un "aliado" perfecto en su salud, ¿qué transformación específica lograría en su rutina diaria en 3 meses?</p>
                             <p class="text-xs font-medium text-teal-600 mb-3">Instrucción: No mencione botones o colores, describa resultados.</p>
-                            <textarea wire:model="hopes" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ej: Lograría que mi nivel de energía no cayera después del almuerzo, sintiéndome activo en mis clases de la tarde..."></textarea>
+                            <textarea wire:model="hopes" rows="4" @disabled($isAlreadySubmitted) class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm disabled:bg-slate-100 disabled:text-slate-500" placeholder="Ej: Lograría que mi nivel de energía no cayera después del almuerzo, sintiéndome activo en mis clases de la tarde..."></textarea>
                             @error('hopes') <span class="text-red-500 text-xs mt-1 block font-medium">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -152,7 +158,7 @@
                     <!-- SUBMIT -->
                     <div class="pt-4 border-t border-slate-200 flex justify-end gap-4">
                         <a href="{{ route('home') }}" class="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-colors">Cancelar</a>
-                        <button type="submit" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-xl transition-colors shadow-lg flex items-center gap-2">
+                        <button type="submit" @disabled($isAlreadySubmitted) class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-xl transition-colors shadow-lg flex items-center gap-2 disabled:bg-slate-300 disabled:shadow-none disabled:cursor-not-allowed">
                             <svg wire:loading wire:target="save" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>

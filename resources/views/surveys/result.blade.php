@@ -30,7 +30,7 @@
                     <span class="text-[10px] text-slate-400 uppercase tracking-widest">Investigación en Salud Metabólica</span>
                 </div>
             </div>
-            <a href="{{ route('surveys.index') }}" class="text-xs font-semibold text-blue-700 hover:text-blue-800 flex items-center gap-1">
+            <a href="{{ route('home') }}" class="text-xs font-semibold text-blue-700 hover:text-blue-800 flex items-center gap-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Volver al inicio
             </a>
@@ -148,7 +148,7 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                    <a href="{{ route('surveys.index') }}" class="flex-1 bg-blue-700 hover:bg-blue-800 active:scale-[.98] text-white py-4 rounded-2xl font-bold text-base tracking-wide transition-all shadow-lg shadow-blue-100 flex items-center justify-center gap-2">
+                    <a href="{{ route('home') }}" class="flex-1 bg-blue-700 hover:bg-blue-800 active:scale-[.98] text-white py-4 rounded-2xl font-bold text-base tracking-wide transition-all shadow-lg shadow-blue-100 flex items-center justify-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                         Llenar Otra Encuesta
                     </a>
