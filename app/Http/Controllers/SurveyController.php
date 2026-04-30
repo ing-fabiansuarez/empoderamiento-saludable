@@ -8,12 +8,19 @@ use Illuminate\Support\Str;
 
 class SurveyController extends Controller
 {
-    /**
-     * Display the survey form.
-     */
-    public function index()
+    public function home()
     {
-        return view('surveys.index');
+        return view('home');
+    }
+
+    public function findrisc()
+    {
+        return view('surveys.findrisc');
+    }
+
+    public function instrument()
+    {
+        return view('surveys.instrument');
     }
 
 

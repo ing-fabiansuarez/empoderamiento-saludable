@@ -5,7 +5,9 @@ use App\Http\Controllers\SurveyController;
 use App\Http\Middleware\AdminAuth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [SurveyController::class, 'index'])->name('surveys.index');
+Route::get('/', [SurveyController::class, 'home'])->name('home');
+Route::get('/encuesta-findrisc', [SurveyController::class, 'findrisc'])->name('surveys.findrisc');
+Route::get('/instrumento-necesidades', [SurveyController::class, 'instrument'])->name('surveys.instrument');
 
 Route::get('/results/{uuid}', [SurveyController::class, 'show'])->name('surveys.show');
 
