@@ -595,6 +595,41 @@
                     </div>
                 </section>
             @endif
+
+            <!-- USUARIO YA REGISTRADO -->
+            @if ($currentStep === 100)
+                <section id="step-already-registered">
+                    <div class="bg-gradient-to-br from-gray-600 to-gray-800 px-8 py-6 text-white">
+                        <h2 class="text-xl font-bold">Encuesta Ya Completada</h2>
+                    </div>
+
+                    <div class="p-8 space-y-6">
+                        <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6 flex flex-col gap-4 text-center items-center">
+                            <svg class="w-12 h-12 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-blue-800 text-lg">El correo que usted ha ingresado ya ha llenado la encuesta, si desea obtener sus resultados de nuevo oprima el boton de reenviar correo.</p>
+                        </div>
+
+                        @if (session()->has('resend_success'))
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                                <span class="block sm:inline">{{ session('resend_success') }}</span>
+                            </div>
+                        @endif
+
+                        <div class="flex flex-col md:flex-row justify-center gap-4 mt-8">
+                            <button type="button" wire:click="startOver"
+                                class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-3 rounded-xl font-bold text-sm border">
+                                Volver a llenar encuesta (Empezar de cero)
+                            </button>
+                            <button type="button" wire:click="resendEmail"
+                                class="bg-blue-700 hover:bg-blue-800 text-white px-8 py-3 rounded-xl font-bold text-sm shadow-lg">
+                                Volver a enviar correo
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            @endif
         </form>
     </div>
 </div>

@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\Survey;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SurveyCompleted;
 
 class SurveyForm extends Component
 {
@@ -61,6 +63,13 @@ class SurveyForm extends Component
                 'has_diabetes' => 'required|in:0,1',
             ]);
 
+            // Check if email already exists
+            $existingSurvey = Survey::where('mail', $this->mail)->first();
+            if ($existingSurvey) {
+                $this->currentStep = 100;
+                return;
+            }
+
             if ($this->has_diabetes == '1') {
                 $this->currentStep = 99;
             } else {
@@ -82,8 +91,32 @@ class SurveyForm extends Component
     {
         if ($this->currentStep === 99) {
             $this->currentStep = 2;
+        } elseif ($this->currentStep === 100) {
+            $this->currentStep = 2;
         } else {
             $this->currentStep--;
+        }
+    }
+
+    public function startOver()
+    {
+        $this->reset([
+            'currentStep', 'consent', 'mail', 'has_diabetes', 'gender', 'age',
+            'weight', 'height', 'waist', 'daily_activity', 'fruit_consumption',
+            'antihypertensive_medication', 'elevated_glucose', 'family_history'
+        ]);
+        $this->currentStep = 1;
+        $this->consent = false;
+        $this->gender = 'M';
+        $this->family_history = '0';
+    }
+
+    public function resendEmail()
+    {
+        $existingSurvey = Survey::where('mail', $this->mail)->first();
+        if ($existingSurvey) {
+            Mail::to($existingSurvey->mail)->send(new SurveyCompleted($existingSurvey));
+            session()->flash('resend_success', 'El correo con sus resultados ha sido reenviado exitosamente.');
         }
     }
 
@@ -103,6 +136,8 @@ class SurveyForm extends Component
                 'score' => null,
                 'risk_level' => 'Diagnosticado con Diabetes',
             ]);
+
+            Mail::to($survey->mail)->send(new SurveyCompleted($survey));
 
             return redirect()->route('surveys.show', $survey->uuid)->with('success', 'Registro guardado con éxito.');
         }
@@ -220,6 +255,8 @@ class SurveyForm extends Component
             'score' => $score,
             'risk_level' => $riskLevel,
         ]);
+
+        Mail::to($survey->mail)->send(new SurveyCompleted($survey));
 
         return redirect()->route('surveys.show', $survey->uuid)->with('success', 'Encuesta guardada con éxito.');
     }

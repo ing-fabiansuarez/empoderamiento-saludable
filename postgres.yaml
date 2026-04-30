@@ -1,0 +1,33 @@
+location: centralus
+name: empoderamiento-db
+resourceGroup: empoderamiento-rg
+type: Microsoft.App/containerApps
+properties:
+  environmentId: /subscriptions/29870e64-2ab5-4afd-8540-15a6281402b9/resourceGroups/mentally-prod-rg/providers/Microsoft.App/managedEnvironments/mentally-env
+  configuration:
+    ingress:
+      external: false
+      targetPort: 5432
+      exposedPort: 5432
+      transport: tcp
+  template:
+    containers:
+      - image: postgres:16-alpine
+        name: postgres
+        env:
+          - name: POSTGRES_DB
+            value: empoderamiento
+          - name: POSTGRES_USER
+            value: laravel
+          - name: POSTGRES_PASSWORD
+            value: 2591banU
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            volumeName: pgdata-volume
+        resources:
+          cpu: 0.5
+          memory: 1.0Gi
+    volumes:
+      - name: pgdata-volume
+        storageName: empoderamiento-pgdata
+        storageType: AzureFile
