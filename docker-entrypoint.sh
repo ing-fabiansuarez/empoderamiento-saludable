@@ -17,5 +17,8 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
+echo "==> Iniciando procesador de colas (correos)..."
+php artisan queue:work --tries=3 --timeout=90 &
+
 echo "==> Iniciando Apache..."
 exec apache2-foreground

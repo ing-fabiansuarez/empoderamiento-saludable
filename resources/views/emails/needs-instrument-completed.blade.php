@@ -33,7 +33,7 @@
         </div>
 
         <div class="content">
-            <p class="greeting">{{ $survey->names }}, ¡gracias por tu participación!</p>
+            <p class="greeting">¡Hola! Gracias por tu participación.</p>
             <p>Has respondido exitosamente el <strong>Instrumento de Elicitación de Necesidades de Stakeholders</strong>. A continuación encontrarás un resumen de tus respuestas para que puedas conservarlas.</p>
 
             <div class="uuid-box">
