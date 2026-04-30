@@ -53,21 +53,7 @@ class AdminSessionController extends Controller
      */
     public function dashboard(Request $request): View
     {
-        $perPage = $request->input('per_page', 10);
-        $surveys = Survey::orderBy('id', 'asc')->paginate($perPage);
-
-        return view('admin.dashboard', compact('surveys', 'perPage'));
-    }
-
-    /**
-     * Delete a survey.
-     */
-    public function destroySurvey($id): RedirectResponse
-    {
-        $survey = Survey::findOrFail($id);
-        $survey->delete();
-
-        return redirect()->route('admin.dashboard')->with('success', 'Registro eliminado correctamente.');
+        return view('admin.dashboard');
     }
 
     /**
@@ -78,36 +64,5 @@ class AdminSessionController extends Controller
         $request->session()->forget(['admin_id', 'admin_user']);
 
         return redirect()->route('admin.login');
-    }
-
-    /**
-     * Export all surveys to Excel.
-     */
-    public function exportSurveys()
-    {
-        $surveys = Survey::all();
-
-        return (new FastExcel($surveys))->download('encuestas.xlsx', function ($survey) {
-            return [
-                'ID' => $survey->id,
-                'Nombres' => $survey->names,
-                'Apellidos' => $survey->surnames,
-                'Correo' => $survey->mail,
-                'Sexo' => $survey->gender,
-                'Edad' => $survey->age,
-                'Peso (kg)' => $survey->weight,
-                'Estatura (cm)' => $survey->height,
-                'Cintura (cm)' => $survey->waist,
-                'Actividad Física' => $survey->daily_activity,
-                'Frutas/Verduras' => $survey->fruit_consumption,
-                'Medic. Antihipertensiva' => $survey->antihypertensive_medication,
-                'Glucosa Elevada' => $survey->elevated_glucose,
-                'Antecedentes Familiares' => $survey->family_history,
-                'IMC' => $survey->bmi,
-                'Puntaje FINDRISC' => $survey->score,
-                'Nivel de Riesgo' => $survey->risk_level,
-                'Fecha Registro' => $survey->created_at->format('Y-m-d H:i:s'),
-            ];
-        });
     }
 }

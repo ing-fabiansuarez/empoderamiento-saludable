@@ -18,8 +18,6 @@ Route::prefix('admin')->name('admin.')->group(function (): void {
 
     Route::middleware(AdminAuth::class)->group(function (): void {
         Route::get('/dashboard', [AdminSessionController::class, 'dashboard'])->name('dashboard');
-        Route::get('/export', [AdminSessionController::class, 'exportSurveys'])->name('export');
-        Route::delete('/surveys/{id}', [AdminSessionController::class, 'destroySurvey'])->name('surveys.destroy');
         Route::post('/logout', [AdminSessionController::class, 'logout'])->name('logout');
     }
     );
