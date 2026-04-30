@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\NeedsInstrument;
+use App\Models\Survey;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,17 +11,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NeedsInstrumentCompleted extends Mailable
+class NeedsInstrumentCompleted extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        public NeedsInstrument $instrument,
+        public Survey $survey,
+    ) {}
 
     /**
      * Get the message envelope.
@@ -27,7 +29,7 @@ class NeedsInstrumentCompleted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Needs Instrument Completed',
+            subject: 'Tus respuestas — Instrumento de Elicitación de Necesidades',
         );
     }
 
@@ -37,7 +39,11 @@ class NeedsInstrumentCompleted extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.needs-instrument-completed',
+            with: [
+                'instrument' => $this->instrument,
+                'survey' => $this->survey,
+            ],
         );
     }
 

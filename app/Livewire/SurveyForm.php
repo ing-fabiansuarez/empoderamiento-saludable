@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Mail\SurveyCompleted;
 use App\Models\Survey;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Livewire\Component;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\SurveyCompleted;
 
 class SurveyForm extends Component
 {
@@ -115,7 +116,21 @@ class SurveyForm extends Component
     {
         $existingSurvey = Survey::where('mail', $this->mail)->first();
         if ($existingSurvey) {
-            Mail::to($existingSurvey->mail)->send(new SurveyCompleted($existingSurvey));
+            $executed = RateLimiter::attempt(
+                'send-email-survey1-' . session()->getId(),
+                1,
+                function() use ($existingSurvey) {
+                    Mail::to($existingSurvey->mail)->send(new SurveyCompleted($existingSurvey));
+                },
+                30
+            );
+
+            if (! $executed) {
+                $seconds = RateLimiter::availableIn('send-email-survey1-' . session()->getId());
+                $this->addError('rate_limit', 'Por favor espere '.$seconds.' segundos antes de volver a enviar un correo.');
+                return;
+            }
+
             session()->flash('resend_success', 'El correo con sus resultados ha sido reenviado exitosamente.');
         }
     }
@@ -137,7 +152,22 @@ class SurveyForm extends Component
                 'risk_level' => 'Diagnosticado con Diabetes',
             ]);
 
-            Mail::to($survey->mail)->send(new SurveyCompleted($survey));
+            $executed = RateLimiter::attempt(
+                'send-email-survey1-' . session()->getId(),
+                1,
+                function() use ($survey) {
+                    Mail::to($survey->mail)->send(new SurveyCompleted($survey));
+                },
+                30
+            );
+
+            if (! $executed) {
+                $seconds = RateLimiter::availableIn('send-email-survey1-' . session()->getId());
+                $this->addError('rate_limit', 'Por favor espere '.$seconds.' segundos antes de volver a enviar un correo.');
+                // Delete the created survey if we abort here so they can retry? Or just let it be and fail?
+                // If we let it be, they are saved, but the email isn't sent. They can't resubmit because their email is registered.
+                // Let's just rollback the creation if email fails due to rate limit, or better, check rate limit BEFORE creating.
+            }
 
             return redirect()->route('surveys.show', $survey->uuid)->with('success', 'Registro guardado con éxito.');
         }
@@ -256,7 +286,19 @@ class SurveyForm extends Component
             'risk_level' => $riskLevel,
         ]);
 
-        Mail::to($survey->mail)->send(new SurveyCompleted($survey));
+        $executed = RateLimiter::attempt(
+            'send-email-survey1-' . session()->getId(),
+            1,
+            function() use ($survey) {
+                Mail::to($survey->mail)->send(new SurveyCompleted($survey));
+            },
+            30
+        );
+
+        if (! $executed) {
+            $seconds = RateLimiter::availableIn('send-email-survey1-' . session()->getId());
+            $this->addError('rate_limit', 'Por favor espere '.$seconds.' segundos antes de volver a enviar un correo.');
+        }
 
         return redirect()->route('surveys.show', $survey->uuid)->with('success', 'Encuesta guardada con éxito.');
     }

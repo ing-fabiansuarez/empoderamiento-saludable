@@ -35,14 +35,34 @@
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-1">ID Único (Anonimizado) <span class="text-red-500">*</span></label>
                                 <p class="text-xs text-slate-500 mb-2">Ingrese el código que recibió en su correo al finalizar la encuesta inicial (FINDRISC).</p>
-                                <input type="text" wire:model.live.debounce.500ms="uuid" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 font-mono" placeholder="Ej: 123e4567-e89b-12d3-a456-426614174000">
+                                <input type="text" id="uuid-input" wire:model.live.debounce.500ms="uuid" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 font-mono" placeholder="Ej: 123e4567-e89b-12d3-a456-426614174000">
                                 @if($isAlreadySubmitted)
                                     <div class="mt-2 p-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-sm flex items-start gap-2">
                                         <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                                        <p>Este ID Único ya ha completado la encuesta. Los campos han sido deshabilitados.</p>
+                                        <div class="w-full">
+                                            <p class="mb-2">Este ID Único ya ha completado la encuesta. Los campos han sido deshabilitados.</p>
+                                            <button type="button" wire:click="resendEmail" wire:loading.attr="disabled" wire:target="resendEmail" class="text-sm font-bold bg-amber-600 hover:bg-amber-700 active:scale-[.98] transition-all text-white py-1.5 px-4 rounded-lg shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                                                <svg wire:loading.remove wire:target="resendEmail" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                                <svg wire:loading wire:target="resendEmail" class="animate-spin w-4 h-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                <span wire:loading.remove wire:target="resendEmail">Reenviar Correo</span>
+                                                <span wire:loading wire:target="resendEmail">En proceso de envío...</span>
+                                            </button>
+                                        </div>
                                     </div>
+                                    
+                                    @if (session()->has('resend_success'))
+                                        <div class="mt-2 bg-green-50 border border-green-200 text-green-700 px-4 py-2 rounded-lg text-sm flex items-center gap-2" role="alert">
+                                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                                            <span class="block sm:inline">{{ session('resend_success') }}</span>
+                                        </div>
+                                    @endif
                                 @endif
+                                
                                 @error('uuid') <span class="text-red-500 text-xs mt-1 block font-medium">{{ $message }}</span> @enderror
+                                @error('rate_limit') <span class="text-red-500 text-xs mt-1 block font-medium">{{ $message }}</span> @enderror
                             </div>
 
                             <div>
@@ -158,16 +178,29 @@
                     <!-- SUBMIT -->
                     <div class="pt-4 border-t border-slate-200 flex justify-end gap-4">
                         <a href="{{ route('home') }}" class="px-6 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition-colors">Cancelar</a>
-                        <button type="submit" @disabled($isAlreadySubmitted) class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-xl transition-colors shadow-lg flex items-center gap-2 disabled:bg-slate-300 disabled:shadow-none disabled:cursor-not-allowed">
+                        <button type="submit" @disabled($isAlreadySubmitted) wire:loading.attr="disabled" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-xl transition-colors shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                             <svg wire:loading wire:target="save" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            Guardar Respuestas
+                            <span wire:loading.remove wire:target="save">Enviar Respuestas</span>
+                            <span wire:loading wire:target="save">Enviando...</span>
                         </button>
                     </div>
                 </form>
             @endif
         </div>
     </div>
+
+    @script
+    <script>
+        $wire.on('focus-uuid', () => {
+            const uuidInput = document.getElementById('uuid-input');
+            if (uuidInput) {
+                uuidInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                uuidInput.focus();
+            }
+        });
+    </script>
+    @endscript
 </div>

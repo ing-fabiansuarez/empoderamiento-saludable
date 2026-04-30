@@ -47,6 +47,12 @@
         </div>
 
         <form wire:submit.prevent="save">
+            @error('rate_limit')
+                <div class="m-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm flex items-center gap-2" role="alert">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>{{ $message }}</span>
+                </div>
+            @enderror
             <!-- CONSENTIMIENTO -->
             @if ($currentStep === 1)
                 <section id="step-1" class="border-b border-slate-100">
