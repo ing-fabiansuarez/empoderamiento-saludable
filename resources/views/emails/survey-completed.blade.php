@@ -34,6 +34,12 @@
                 @endif
             </div>
 
+            <div style="background-color: #e8f4fd; padding: 15px; border-left: 4px solid #007bff; margin: 20px 0;">
+                <h4 style="margin-top: 0; color: #0056b3;">Información Importante para el Paso 2</h4>
+                <p style="margin-bottom: 5px;">Su <strong>ID Único (Anonimizado)</strong> es el siguiente código. Cópielo y péguelo cuando ingrese a responder el Instrumento de Elicitación de Necesidades:</p>
+                <p style="font-family: monospace; font-size: 16px; font-weight: bold; background: #fff; padding: 10px; border: 1px dashed #007bff; text-align: center; margin-bottom: 0;">{{ $survey->uuid }}</p>
+            </div>
+
             @if(!$survey->has_diabetes)
             <h3>Tus Respuestas:</h3>
             <table>

@@ -157,13 +157,11 @@
     <header class="bg-white border-b border-blue-100 shadow-sm sticky top-0 z-10">
         <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-blue-700 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path
-                            d="M4.5 12.5c.375-1 1.875-3 3.75-3s3.75 3 5.25 3 3.375-2 3.75-3M4.5 19.5c.375-1 1.875-3 3.75-3s3.75 3 5.25 3 3.375-2 3.75-3M4.5 5.5c.375-1 1.875-3 3.75-3s3.75 3 5.25 3 3.375-2 3.75-3" />
+                <a href="{{ route('home') }}" class="w-8 h-8 rounded-lg bg-blue-700 flex items-center justify-center hover:bg-blue-800 transition-colors">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
-                </div>
+                </a>
                 <div>
                     <span class="font-bold text-blue-900 text-sm leading-none block">Red Mutis</span>
                     <span class="text-[10px] text-slate-400 uppercase tracking-widest">Investigación en Salud
