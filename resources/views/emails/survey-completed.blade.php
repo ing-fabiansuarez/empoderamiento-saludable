@@ -53,8 +53,16 @@
                         <td>{{ $survey->age }} años</td>
                     </tr>
                     <tr>
-                        <th>Peso / Estatura / Cintura</th>
-                        <td>{{ $survey->weight }} kg / {{ $survey->height }} cm / {{ $survey->waist }} cm</td>
+                        <th>Peso / Estatura</th>
+                        <td>{{ $survey->weight }} kg / {{ $survey->height }} cm</td>
+                    </tr>
+                    <tr>
+                        <th>Perímetro de cintura</th>
+                        <td>{{ $survey->waist }} cm</td>
+                    </tr>
+                    <tr>
+                        <th>Perímetro de cadera</th>
+                        <td>{{ $survey->hip }} cm</td>
                     </tr>
                     <tr>
                         <th>IMC Calculado</th>

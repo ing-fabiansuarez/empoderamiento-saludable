@@ -19,6 +19,7 @@ class Survey extends Model
         'weight',
         'height',
         'waist',
+        'hip',
         'daily_activity',
         'fruit_consumption',
         'antihypertensive_medication',

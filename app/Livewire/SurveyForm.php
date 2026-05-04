@@ -31,6 +31,8 @@ class SurveyForm extends Component
 
     public $waist;
 
+    public $hip;
+
     public $daily_activity;
 
     public $fruit_consumption;
@@ -68,6 +70,7 @@ class SurveyForm extends Component
             $existingSurvey = Survey::where('mail', $this->mail)->first();
             if ($existingSurvey) {
                 $this->currentStep = 100;
+
                 return;
             }
 
@@ -83,6 +86,7 @@ class SurveyForm extends Component
                 'weight' => 'required|numeric|min:30|max:250',
                 'height' => 'required|numeric|min:120|max:220',
                 'waist' => 'required|numeric|min:40|max:200',
+                'hip' => 'required|numeric|min:40|max:200',
             ]);
             $this->currentStep = 4;
         }
@@ -103,8 +107,8 @@ class SurveyForm extends Component
     {
         $this->reset([
             'currentStep', 'consent', 'mail', 'has_diabetes', 'gender', 'age',
-            'weight', 'height', 'waist', 'daily_activity', 'fruit_consumption',
-            'antihypertensive_medication', 'elevated_glucose', 'family_history'
+            'weight', 'height', 'waist', 'hip', 'daily_activity', 'fruit_consumption',
+            'antihypertensive_medication', 'elevated_glucose', 'family_history',
         ]);
         $this->currentStep = 1;
         $this->consent = false;
@@ -117,17 +121,18 @@ class SurveyForm extends Component
         $existingSurvey = Survey::where('mail', $this->mail)->first();
         if ($existingSurvey) {
             $executed = RateLimiter::attempt(
-                'send-email-survey1-' . session()->getId(),
+                'send-email-survey1-'.session()->getId(),
                 1,
-                function() use ($existingSurvey) {
+                function () use ($existingSurvey) {
                     Mail::to($existingSurvey->mail)->send(new SurveyCompleted($existingSurvey));
                 },
                 30
             );
 
             if (! $executed) {
-                $seconds = RateLimiter::availableIn('send-email-survey1-' . session()->getId());
+                $seconds = RateLimiter::availableIn('send-email-survey1-'.session()->getId());
                 $this->addError('rate_limit', 'Por favor espere '.$seconds.' segundos antes de volver a enviar un correo.');
+
                 return;
             }
 
@@ -153,16 +158,16 @@ class SurveyForm extends Component
             ]);
 
             $executed = RateLimiter::attempt(
-                'send-email-survey1-' . session()->getId(),
+                'send-email-survey1-'.session()->getId(),
                 1,
-                function() use ($survey) {
+                function () use ($survey) {
                     Mail::to($survey->mail)->send(new SurveyCompleted($survey));
                 },
                 30
             );
 
             if (! $executed) {
-                $seconds = RateLimiter::availableIn('send-email-survey1-' . session()->getId());
+                $seconds = RateLimiter::availableIn('send-email-survey1-'.session()->getId());
                 $this->addError('rate_limit', 'Por favor espere '.$seconds.' segundos antes de volver a enviar un correo.');
                 // Delete the created survey if we abort here so they can retry? Or just let it be and fail?
                 // If we let it be, they are saved, but the email isn't sent. They can't resubmit because their email is registered.
@@ -181,6 +186,7 @@ class SurveyForm extends Component
             'weight' => 'required|numeric|min:30|max:250',
             'height' => 'required|numeric|min:120|max:220',
             'waist' => 'required|numeric|min:40|max:200',
+            'hip' => 'required|numeric|min:40|max:200',
             'daily_activity' => 'required|integer|in:0,2',
             'fruit_consumption' => 'required|integer|in:0,1',
             'antihypertensive_medication' => 'required|integer|in:0,2',
@@ -276,6 +282,7 @@ class SurveyForm extends Component
             'weight' => $this->weight,
             'height' => $this->height,
             'waist' => $this->waist,
+            'hip' => $this->hip,
             'daily_activity' => $dailyActivityLabel,
             'fruit_consumption' => $fruitConsumptionLabel,
             'antihypertensive_medication' => $antihypertensionLabel,
@@ -287,16 +294,16 @@ class SurveyForm extends Component
         ]);
 
         $executed = RateLimiter::attempt(
-            'send-email-survey1-' . session()->getId(),
+            'send-email-survey1-'.session()->getId(),
             1,
-            function() use ($survey) {
+            function () use ($survey) {
                 Mail::to($survey->mail)->send(new SurveyCompleted($survey));
             },
             30
         );
 
         if (! $executed) {
-            $seconds = RateLimiter::availableIn('send-email-survey1-' . session()->getId());
+            $seconds = RateLimiter::availableIn('send-email-survey1-'.session()->getId());
             $this->addError('rate_limit', 'Por favor espere '.$seconds.' segundos antes de volver a enviar un correo.');
         }
 

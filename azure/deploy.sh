@@ -5,12 +5,12 @@
 # =============================================================
 
 # Configuración
-ACR_NAME="acrencuestas"
-CONTAINER_APP_NAME="encuestas-app"
-CONTAINER_APP_RG="mentally-prod-rg"
+ACR_NAME="empoderamientoacr472"
+CONTAINER_APP_NAME="empoderamiento-app"
+CONTAINER_APP_RG="empoderamiento-rg"
 
 IMAGE_TAG="manual-$(date +%Y%m%d%H%M)"
-IMAGE_NAME="${ACR_NAME}.azurecr.io/encuestas-laravel:${IMAGE_TAG}"
+IMAGE_NAME="${ACR_NAME}.azurecr.io/empoderamiento-app:${IMAGE_TAG}"
 
 echo ""
 echo "======================================================"

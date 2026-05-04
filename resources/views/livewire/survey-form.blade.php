@@ -419,22 +419,16 @@
 
                     <div class="p-8 space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div class="md:col-span-2">
+                            <div>
                                 <label class="block text-xs font-semibold text-slate-500 mb-2">Sexo Biológico</label>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <label
-                                        class="flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer {{ $gender === 'M' ? 'border-blue-400 bg-blue-50' : 'border-slate-200' }}">
-                                        <input type="radio" wire:model.live="gender" value="M"
-                                            class="hidden">
-                                        <span class="text-sm font-semibold text-slate-700">Hombre</span>
-                                    </label>
-                                    <label
-                                        class="flex items-center gap-3 border-2 rounded-xl px-4 py-3 cursor-pointer {{ $gender === 'F' ? 'border-blue-400 bg-blue-50' : 'border-slate-200' }}">
-                                        <input type="radio" wire:model.live="gender" value="F"
-                                            class="hidden">
-                                        <span class="text-sm font-semibold text-slate-700">Mujer</span>
-                                    </label>
-                                </div>
+                                <select wire:model.live="gender"
+                                    class="w-full border-2 p-3 rounded-xl {{ $errors->has('gender') ? 'border-red-300' : 'border-slate-200' }} bg-white">
+                                    <option value="M">Hombre</option>
+                                    <option value="F">Mujer</option>
+                                </select>
+                                @error('gender')
+                                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div>
@@ -465,10 +459,19 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-semibold text-slate-500 mb-2">Cintura (cm)</label>
+                                <label class="block text-xs font-semibold text-slate-500 mb-2">Perímetro de cintura (cm)</label>
                                 <input type="number" wire:model="waist"
                                     class="w-full border-2 p-3 rounded-xl {{ $errors->has('waist') ? 'border-red-300' : 'border-slate-200' }}">
                                 @error('waist')
+                                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-2">Perímetro de cadera (cm)</label>
+                                <input type="number" wire:model="hip"
+                                    class="w-full border-2 p-3 rounded-xl {{ $errors->has('hip') ? 'border-red-300' : 'border-slate-200' }}">
+                                @error('hip')
                                     <span class="text-red-500 text-xs">{{ $message }}</span>
                                 @enderror
                             </div>
