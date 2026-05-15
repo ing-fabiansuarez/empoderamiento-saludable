@@ -198,6 +198,9 @@ class SurveyForm extends Component
         $heightInMeters = $this->height / 100;
         $bmi = $this->weight / ($heightInMeters * $heightInMeters);
 
+        // Calculate ICC
+        $icc = $this->waist / $this->hip;
+
         // Calculate FINDRISC Score
         $score = 0;
 
@@ -289,6 +292,7 @@ class SurveyForm extends Component
             'elevated_glucose' => $elevatedGlucoseLabel,
             'family_history' => $familyHistoryLabel,
             'bmi' => round($bmi, 1),
+            'icc' => round($icc, 3),
             'score' => $score,
             'risk_level' => $riskLevel,
         ]);

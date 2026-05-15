@@ -131,6 +131,104 @@
 
             <!-- Code + disclaimer + actions -->
             <div class="p-8 space-y-6">
+
+                @if(!$survey->has_diabetes && $survey->bmi)
+                @php
+                    $bmi  = $survey->bmi;
+                    $icc  = $survey->icc;
+                    $gen  = $survey->gender; // 'M' or 'F'
+                    $waist = $survey->waist;
+
+                    // IMC range
+                    [$imcLabel, $imcColor] = match(true) {
+                        $bmi < 18.5 => ['Bajo peso',                   'bg-blue-50 text-blue-800 border-blue-200'],
+                        $bmi < 25   => ['Peso saludable',              'bg-emerald-50 text-emerald-800 border-emerald-200'],
+                        $bmi < 30   => ['Sobrepeso',                   'bg-yellow-50 text-yellow-800 border-yellow-200'],
+                        $bmi < 35   => ['Obesidad Clase I',            'bg-orange-50 text-orange-800 border-orange-200'],
+                        $bmi < 40   => ['Obesidad Clase II',           'bg-red-50 text-red-800 border-red-200'],
+                        default     => ['Obesidad Clase III (Mórbida)', 'bg-rose-100 text-rose-900 border-rose-300'],
+                    };
+
+                    // CC risk
+                    if ($gen === 'F') {
+                        [$ccLabel, $ccColor] = match(true) {
+                            $waist > 88 => ['Riesgo muy elevado (>88 cm)',    'bg-red-50 text-red-800 border-red-200'],
+                            $waist >= 80 => ['Riesgo elevado (≥80 cm)',       'bg-orange-50 text-orange-800 border-orange-200'],
+                            default      => ['Sin riesgo elevado (<80 cm)',   'bg-emerald-50 text-emerald-800 border-emerald-200'],
+                        };
+                    } else {
+                        [$ccLabel, $ccColor] = match(true) {
+                            $waist > 102  => ['Riesgo muy elevado (>102 cm)', 'bg-red-50 text-red-800 border-red-200'],
+                            $waist >= 94  => ['Riesgo elevado (≥94 cm)',      'bg-orange-50 text-orange-800 border-orange-200'],
+                            default        => ['Sin riesgo elevado (<94 cm)', 'bg-emerald-50 text-emerald-800 border-emerald-200'],
+                        };
+                    }
+
+                    // ICC range
+                    if ($icc !== null) {
+                        if ($gen === 'F') {
+                            [$iccLabel, $iccColor] = $icc >= 0.85
+                                ? ['Riesgo alto / Obesidad abdominal (≥0.85)', 'bg-red-50 text-red-800 border-red-200']
+                                : ['Saludable / Bajo riesgo (<0.85)',           'bg-emerald-50 text-emerald-800 border-emerald-200'];
+                        } else {
+                            [$iccLabel, $iccColor] = $icc >= 0.95
+                                ? ['Riesgo alto / Obesidad abdominal (≥0.95)', 'bg-red-50 text-red-800 border-red-200']
+                                : ['Saludable / Bajo riesgo (<0.95)',           'bg-emerald-50 text-emerald-800 border-emerald-200'];
+                        }
+                    }
+                @endphp
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="bg-gradient-to-r from-cyan-700 to-blue-800 px-6 py-4">
+                        <p class="text-white font-bold text-sm uppercase tracking-widest">Indicadores Antropométricos</p>
+                    </div>
+                    <div class="divide-y divide-slate-100">
+
+                        {{-- IMC --}}
+                        <div class="flex items-start justify-between gap-4 px-6 py-4">
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase font-semibold tracking-wider mb-0.5">Índice de Masa Corporal (IMC)</p>
+                                <p class="text-2xl font-extrabold text-slate-800">{{ $bmi }} <span class="text-sm font-medium text-slate-400">kg/m²</span></p>
+                                <p class="text-xs text-slate-400 mt-1">Peso: {{ $survey->weight }} kg · Estatura: {{ $survey->height }} cm</p>
+                            </div>
+                            <span class="inline-block text-xs font-bold px-3 py-1.5 rounded-xl border {{ $imcColor }} whitespace-nowrap mt-1">{{ $imcLabel }}</span>
+                        </div>
+
+                        {{-- Circunferencia de cintura --}}
+                        <div class="flex items-start justify-between gap-4 px-6 py-4">
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase font-semibold tracking-wider mb-0.5">Circunferencia de Cintura (CC)</p>
+                                <p class="text-2xl font-extrabold text-slate-800">{{ $waist }} <span class="text-sm font-medium text-slate-400">cm</span></p>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    @if($gen === 'F') Referencia: &lt;80 cm sin riesgo · ≥80 cm riesgo elevado · &gt;88 cm riesgo muy elevado
+                                    @else Referencia: &lt;94 cm sin riesgo · ≥94 cm riesgo elevado · &gt;102 cm riesgo muy elevado
+                                    @endif
+                                </p>
+                            </div>
+                            <span class="inline-block text-xs font-bold px-3 py-1.5 rounded-xl border {{ $ccColor }} whitespace-nowrap mt-1">{{ $ccLabel }}</span>
+                        </div>
+
+                        {{-- ICC --}}
+                        @if($icc !== null)
+                        <div class="flex items-start justify-between gap-4 px-6 py-4">
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase font-semibold tracking-wider mb-0.5">Índice Cintura-Cadera (ICC)</p>
+                                <p class="text-2xl font-extrabold text-slate-800">{{ (float) $icc }} <span class="text-sm font-medium text-slate-400">cintura/cadera</span></p>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    Cintura: {{ $waist }} cm · Cadera: {{ $survey->hip }} cm<br>
+                                    @if($gen === 'F') Referencia mujeres: &lt;0.85 saludable · ≥0.85 riesgo alto
+                                    @else Referencia hombres: &lt;0.95 saludable · ≥0.95 riesgo alto
+                                    @endif
+                                </p>
+                            </div>
+                            <span class="inline-block text-xs font-bold px-3 py-1.5 rounded-xl border {{ $iccColor }} whitespace-nowrap mt-1">{{ $iccLabel }}</span>
+                        </div>
+                        @endif
+
+                    </div>
+                </div>
+                @endif
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                         <p class="text-xs text-slate-400 uppercase font-semibold tracking-wider mb-3">Código de Participante Anónimo</p>

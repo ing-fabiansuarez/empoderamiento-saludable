@@ -26,6 +26,7 @@ class Survey extends Model
         'elevated_glucose',
         'family_history',
         'bmi',
+        'icc',
         'score',
         'risk_level',
     ];

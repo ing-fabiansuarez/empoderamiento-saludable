@@ -459,7 +459,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-semibold text-slate-500 mb-2">Perímetro de cintura (cm)</label>
+                                <label class="block text-xs font-semibold text-slate-500 mb-2">Circunferencia de cintura — CC (cm)</label>
                                 <input type="number" wire:model="waist"
                                     class="w-full border-2 p-3 rounded-xl {{ $errors->has('waist') ? 'border-red-300' : 'border-slate-200' }}">
                                 @error('waist')
@@ -468,7 +468,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-semibold text-slate-500 mb-2">Perímetro de cadera (cm)</label>
+                                <label class="block text-xs font-semibold text-slate-500 mb-2">Circunferencia de cadera (cm)</label>
                                 <input type="number" wire:model="hip"
                                     class="w-full border-2 p-3 rounded-xl {{ $errors->has('hip') ? 'border-red-300' : 'border-slate-200' }}">
                                 @error('hip')
