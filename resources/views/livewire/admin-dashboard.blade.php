@@ -128,7 +128,6 @@
                             <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">ID / Fecha</th>
                             
                             @if($surveyType == 1)
-                                <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Participante</th>
                                 <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Contacto</th>
                                 <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Puntaje</th>
                             @else
@@ -150,9 +149,6 @@
                                 </td>
                                 
                                 @if($surveyType == 1)
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="font-medium text-slate-800 text-sm">{{ $survey->names }} {{ $survey->surnames }}</div>
-                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">{{ $survey->mail }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-700">{{ $survey->score }}</td>
                                 @else

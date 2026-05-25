@@ -2,21 +2,24 @@
 
 namespace App\Livewire;
 
+use App\Models\NeedsInstrument;
+use App\Models\Survey;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Survey;
-use App\Models\NeedsInstrument;
 use Rap2hpoutre\FastExcel\FastExcel;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminDashboard extends Component
 {
     use WithPagination;
 
     public $surveyType = 1; // 1 = Consentimiento/FINDRISC, 2 = Necesidades
+
     public $sortOrder = 'desc'; // 'desc' = Recientes, 'asc' = Últimos
+
     public $riskFilter = ''; // '' = Todos, 'Bajo', 'Moderado', 'Alto', etc.
+
     public $isSidebarOpen = true;
+
     public $perPage = 10;
 
     protected $queryString = [
@@ -35,7 +38,7 @@ class AdminDashboard extends Component
 
     public function toggleSidebar()
     {
-        $this->isSidebarOpen = !$this->isSidebarOpen;
+        $this->isSidebarOpen = ! $this->isSidebarOpen;
     }
 
     public function getQuery()
@@ -47,12 +50,12 @@ class AdminDashboard extends Component
             if ($this->riskFilter) {
                 // Handle variations like "Ligeramente elevado" just in case by using LIKE if needed, or exact match.
                 // Our risk_level usually contains the exact text or we can just use `like`
-                $query->where('risk_level', 'ilike', '%' . $this->riskFilter . '%');
+                $query->where('risk_level', 'ilike', '%'.$this->riskFilter.'%');
             }
         } else {
             $query = NeedsInstrument::query();
             if ($this->riskFilter) {
-                $query->where('risk_level', 'ilike', '%' . $this->riskFilter . '%');
+                $query->where('risk_level', 'ilike', '%'.$this->riskFilter.'%');
             }
         }
 
@@ -70,8 +73,6 @@ class AdminDashboard extends Component
                 (new FastExcel($data))->export('php://output', function ($survey) {
                     return [
                         'ID' => $survey->id,
-                        'Nombres' => $survey->names,
-                        'Apellidos' => $survey->surnames,
                         'Correo' => $survey->mail,
                         'Sexo' => $survey->gender,
                         'Edad' => $survey->age,
@@ -117,13 +118,14 @@ class AdminDashboard extends Component
         } else {
             NeedsInstrument::findOrFail($id)->delete();
         }
-        
+
         session()->flash('success', 'Registro eliminado correctamente.');
     }
 
     public function render()
     {
         $surveys = $this->getQuery()->paginate($this->perPage);
+
         return view('livewire.admin-dashboard', compact('surveys'));
     }
 }

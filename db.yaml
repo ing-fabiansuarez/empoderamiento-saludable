@@ -34,8 +34,8 @@ properties:
   environmentId: /subscriptions/29870e64-2ab5-4afd-8540-15a6281402b9/resourceGroups/mentally-prod-rg/providers/Microsoft.App/managedEnvironments/mentally-env
   eventStreamEndpoint: https://eastus2.azurecontainerapps.dev/subscriptions/29870e64-2ab5-4afd-8540-15a6281402b9/resourceGroups/empoderamiento-rg/containerApps/empoderamiento-db/eventstream
   latestReadyRevisionName: empoderamiento-db--1x47smr
-  latestRevisionFqdn: empoderamiento-db--1x47smr.internal.wittyflower-1160ab01.eastus2.azurecontainerapps.io
-  latestRevisionName: empoderamiento-db--1x47smr
+  latestRevisionFqdn: empoderamiento-db--0000001.internal.wittyflower-1160ab01.eastus2.azurecontainerapps.io
+  latestRevisionName: empoderamiento-db--0000001
   managedEnvironmentId: /subscriptions/29870e64-2ab5-4afd-8540-15a6281402b9/resourceGroups/mentally-prod-rg/providers/Microsoft.App/managedEnvironments/mentally-env
   outboundIpAddresses:
   - 20.1.250.250
@@ -319,7 +319,7 @@ systemData:
   createdAt: '2026-04-24T23:23:49.2208226'
   createdBy: mpedraza754@o365.unab.edu.co
   createdByType: User
-  lastModifiedAt: '2026-04-24T23:23:49.2208226'
+  lastModifiedAt: '2026-04-24T23:28:39.6857925'
   lastModifiedBy: mpedraza754@o365.unab.edu.co
   lastModifiedByType: User
 type: Microsoft.App/containerApps
